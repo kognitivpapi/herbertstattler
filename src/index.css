@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+:root {
+  --color-white: #fff;
+  --color-gray-200: #ebebeb;
+  --color-gray-900: #222;
+  --color-gray-900-30: rgba(34, 34, 34, 0.3);
+  --color-header: #0d2c84;
+  --menu-width: 392px;
+  --menu-height: 66px;
+  --grid-max-width: 1800px;
+  --size-16: 16px;
+  --size-24: 24px;
+  --discover-inset: var(--size-16);
+  --discover-back-top: calc(var(--menu-height) + var(--size-16));
+  --page-max-width: 1200px;
+  --page-content-width: 932px;
+  --page-gutter: 60px;
+  --page-indent: 76px;
+  --page-bottom-padding: 80px;
+  --page-top-padding: calc(var(--menu-height) + var(--size-24) + 32px);
+  --page-header-gap: 48px;
+  --page-section-gap: 56px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #000;
+  color: var(--color-gray-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+body:has(.work-page),
+body:has(.exhibitions-page),
+body:has(.material-page),
+body:has(.about-page),
+body:has(.contact-page) {
+  overflow: auto;
+}
+
+body:has(.home-page) {
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --discover-inset: 32px;
+    --discover-back-top: 64px;
+  }
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --page-gutter: 40px;
+    --page-indent: 32px;
+    --page-top-padding: calc(var(--menu-height) + var(--size-24) + 24px);
+    --page-bottom-padding: 72px;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --page-gutter: 24px;
+    --page-indent: 0px;
+    --page-top-padding: calc(var(--menu-height) + var(--size-24) + 16px);
+    --page-bottom-padding: 60px;
+    --page-header-gap: 32px;
+    --page-section-gap: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --page-gutter: 16px;
+    --page-top-padding: calc(var(--menu-height) + 16px);
+    --page-bottom-padding: 48px;
+    --page-header-gap: 28px;
+    --discover-inset: 16px;
+    --discover-back-top: calc(var(--menu-height) + 12px);
+    --menu-width: min(392px, calc(100vw - 24px));
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --page-gutter: 12px;
+    --page-bottom-padding: 40px;
+    --discover-inset: 12px;
+  }
+}
+
+::selection {
+  background: rgba(34, 34, 34, 0.4);
+  color: var(--color-gray-200);
+}

@@ -1,0 +1,193 @@
+import { Suspense, useRef, useMemo, useState, useEffect, useSyncExternalStore } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { OrthographicCamera, PerformanceMonitor, useTexture } from '@react-three/drei'
+import * as THREE from 'three'
+import type { PortfolioItem } from '../data/portfolio'
+import {
+  CAROUSEL_ITEMS,
+  fadeInEasing,
+  getAspectScale,
+  getItemAngle,
+  getItemPosition,
+  getItemRotation,
+  seededRandom,
+} from '../lib/carouselMath'
+
+const MOBILE_BREAKPOINT = 768
+const FADE_DURATION = 1.25
+
+function subscribeVisibility(cb: () => void) {
+  document.addEventListener('visibilitychange', cb)
+  return () => document.removeEventListener('visibilitychange', cb)
+}
+
+function getVisibility() {
+  return document.visibilityState === 'visible'
+}
+
+function usePageVisible() {
+  return useSyncExternalStore(subscribeVisibility, getVisibility, () => true)
+}
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT,
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    const onChange = () => setIsMobile(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  return isMobile
+}
+
+function getTextureAspect(texture: THREE.Texture, fallback: number): number {
+  const image = texture.image as { width?: number; height?: number } | undefined
+  if (image?.width && image?.height) {
+    return image.width / image.height
+  }
+  return fallback
+}
+
+function CarouselItem({
+  index,
+  visible,
+  item,
+  texture,
+}: {
+  index: number
+  visible: boolean
+  item: PortfolioItem
+  texture: THREE.Texture
+}) {
+  const material = useRef<THREE.MeshBasicMaterial>(null)
+  const aspect = getTextureAspect(texture, item.aspectRatio)
+  const scale = useMemo(() => getAspectScale(aspect), [aspect])
+  const angle = getItemAngle(index)
+  const position = getItemPosition(angle)
+  const rotation = getItemRotation(angle)
+  const fadeDelay = useMemo(() => seededRandom(index) * 0.01, [index])
+  const elapsed = useRef(0)
+  const opacity = useRef(0)
+
+  useFrame((_, delta) => {
+    if (!material.current || !visible) return
+
+    if (opacity.current < 1) {
+      elapsed.current += delta
+      const t = Math.min(1, Math.max(0, (elapsed.current - fadeDelay) / FADE_DURATION))
+      opacity.current = fadeInEasing(t)
+      material.current.opacity = opacity.current
+    }
+  })
+
+  return (
+    <group position={position} rotation={rotation}>
+      <mesh scale={scale}>
+        <planeGeometry args={[1, 1]} />
+        <meshBasicMaterial
+          ref={material}
+          map={texture}
+          transparent
+          side={THREE.DoubleSide}
+          toneMapped={false}
+          opacity={0}
+        />
+      </mesh>
+    </group>
+  )
+}
+
+function CarouselRing({ visible }: { visible: boolean }) {
+  const group = useRef<THREE.Group>(null)
+  const imageUrls = useMemo(() => CAROUSEL_ITEMS.map((item) => item.imageUrl), [])
+  const textures = useTexture(imageUrls)
+
+  useFrame((_, delta) => {
+    if (!group.current || !visible) return
+    group.current.rotation.y += delta / 15
+  })
+
+  return (
+    <group ref={group}>
+      {CAROUSEL_ITEMS.map((entry, i) => (
+        <CarouselItem
+          key={entry.id}
+          index={i}
+          visible={visible}
+          item={entry}
+          texture={textures[i]}
+        />
+      ))}
+    </group>
+  )
+}
+
+function CarouselCamera({ visible }: { visible: boolean }) {
+  const { camera, pointer, size, viewport } = useThree()
+  const targetZoom = useRef(50)
+  const targetPos = useRef(new THREE.Vector3(0, 4.5, 9))
+  const isMobile = useIsMobile()
+
+  useFrame((_, delta) => {
+    if (!visible || !(camera instanceof THREE.OrthographicCamera)) return
+
+    if (isMobile) {
+      targetZoom.current = (40 * Math.min(size.width, 1800)) / 1000
+      targetPos.current.set(pointer.x * 0.5, pointer.y * 0.3 + 4.5, 9)
+    } else {
+      const { width } = viewport.getCurrentViewport(camera)
+      targetZoom.current = Math.round(width * 2.9)
+      targetPos.current.set(0, 4.5, 9)
+    }
+
+    camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.05)
+    camera.position.lerp(targetPos.current, delta)
+    camera.updateProjectionMatrix()
+    camera.lookAt(0, 0, 0)
+  })
+
+  return (
+    <OrthographicCamera makeDefault position={[0, 4.5, 9]} zoom={50} />
+  )
+}
+
+function CarouselScene() {
+  const visible = usePageVisible()
+
+  return (
+    <>
+      <CarouselCamera visible={visible} />
+      <CarouselRing visible={visible} />
+    </>
+  )
+}
+
+export function HomeCarousel() {
+  const [dpr, setDpr] = useState(2)
+
+  return (
+    <div className="home-carousel">
+      <Canvas
+        orthographic
+        dpr={dpr}
+        gl={{ antialias: true, alpha: false }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0xffffff, 1)
+        }}
+      >
+        <PerformanceMonitor
+          onIncline={() => setDpr(2)}
+          onDecline={() => setDpr(1)}
+        />
+        <Suspense fallback={null}>
+          <CarouselScene />
+        </Suspense>
+      </Canvas>
+    </div>
+  )
+}

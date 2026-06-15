@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+.work-page {
+  min-height: 100%;
+  background: #fff;
+  color: #000;
+  font-family: 'Roboto', system-ui, sans-serif;
+  overflow: auto;
+}
+
+.work-page .sticky-menu__title a,
+.work-page .sticky-menu__home-link {
+  color: var(--color-white);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.work-page .sticky-menu__title a:hover,
+.work-page .sticky-menu__home-link:hover {
+  opacity: 0.75;
+}
+
+.work-page__content {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--page-top-padding) var(--page-gutter) var(--page-bottom-padding);
+}
+
+.work-page__header {
+  margin-left: var(--page-indent);
+  max-width: var(--page-content-width);
+}
+
+.work-page__title {
+  margin: 0;
+  font-size: clamp(22px, 4.6vw, 56px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 1.3px;
+}
+
+.work-page__title-name {
+  display: block;
+  color: var(--color-header);
+}
+
+.work-page__title-year {
+  display: block;
+  margin-top: 0.2em;
+  font-size: clamp(14px, 2.2vw, 32px);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: var(--color-header);
+}
+
+.work-page__subtitle {
+  margin: 0;
+  padding-top: 0.75em;
+  font-size: clamp(14px, 1.6vw, 20px);
+  font-weight: 500;
+  line-height: 1.2;
+  color: #000;
+}
+
+.work-page__subtitle-muted {
+  color: var(--color-gray-900-30);
+}
+
+.work-page__text {
+  margin: 0 0 0 var(--page-indent);
+  max-width: var(--page-content-width);
+}
+
+.work-page__body {
+  margin: 0;
+  padding-top: 0;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  line-height: 1.534;
+}
+
+.work-page__body + .work-page__body {
+  margin-top: 1em;
+}
+
+.work-page__subtitle + .work-page__text {
+  margin-top: 1.5em;
+}
+
+.work-page__gallery {
+  margin: 0 0 0 var(--page-indent);
+  max-width: var(--page-content-width);
+}
+
+.work-page__figure {
+  margin: 0;
+  padding: 136px 0;
+}
+
+.work-page__figure:first-child {
+  padding-top: 0;
+}
+
+.work-page__image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.work-page__caption {
+  margin: 3px 0 0;
+  font-size: clamp(9px, 0.8vw, 10px);
+  font-weight: 300;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.work-page__footer-note {
+  margin: 40px 0 0 var(--page-indent);
+  max-width: var(--page-content-width);
+  font-size: 15px;
+  font-style: italic;
+}
+
+.work-page__dialogue {
+  margin: 0;
+  max-width: var(--page-content-width);
+}
+
+.work-page__dialogue-speaker {
+  margin: 1.25em 0 0;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  line-height: 1.534;
+}
+
+.work-page__dialogue-speaker:first-child {
+  margin-top: 0;
+}
+
+.work-page__dialogue-question,
+.work-page__dialogue-response {
+  margin: 0.15em 0 0;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  line-height: 1.534;
+}
+
+.work-page__dialogue-question {
+  font-style: italic;
+}
+
+.work-page__dialogue-credit {
+  margin: 1.5em 0 0;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  line-height: 1.534;
+}
+
+.work-page__footnotes {
+  margin-top: 2em;
+  padding-top: 1.25em;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.work-page__footnote {
+  margin: 0.35em 0 0;
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-gray-900-30);
+}
+
+.work-page__back {
+  display: inline-block;
+  margin: 24px 0 0 var(--page-indent);
+  color: inherit;
+}
+
+@media (max-width: 1199px) {
+  .work-page__header,
+  .work-page__text,
+  .work-page__gallery,
+  .work-page__footer-note,
+  .work-page__back {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .work-page__figure {
+    padding: 43px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .work-page__figure {
+    padding: 28px 0;
+  }
+
+  .work-page__figure:first-child {
+    padding-top: 0;
+  }
+
+  .work-page__title {
+    letter-spacing: 0.6px;
+  }
+
+  .work-page__footer-note {
+    margin-top: 28px;
+    font-size: 14px;
+  }
+}

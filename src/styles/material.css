@@ -1,0 +1,214 @@
+.material-page {
+  --material-card-width: 720px;
+  --material-chapter-min-height: 100vh;
+
+  min-height: 100%;
+  background: #fff;
+  color: #000;
+  font-family: var(--font-sans);
+  overflow: auto;
+}
+
+.material-page .sticky-menu-wrap {
+  z-index: 30;
+}
+
+.material-page__main {
+  width: 100%;
+}
+
+/* Landing */
+.material-landing {
+  padding: var(--page-top-padding) var(--page-gutter) 40px;
+  background: #fff;
+}
+
+.material-landing__header {
+  max-width: var(--page-content-width);
+  margin: 0 0 0 var(--page-indent);
+}
+
+.material-page__title {
+  margin: 0;
+  font-size: clamp(22px, 4.6vw, 56px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 1.3px;
+  color: var(--color-header);
+}
+
+.material-page__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 24px;
+}
+
+.material-page__nav-link {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-header);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.material-page__nav-link:hover {
+  border-bottom-color: var(--color-header);
+  opacity: 0.8;
+}
+
+.material-page__description {
+  margin: 20px 0 0;
+  max-width: 52ch;
+  font-size: clamp(12px, 1.2vw, 15px);
+  line-height: 1.534;
+  color: var(--color-gray-900);
+  opacity: 0.85;
+}
+
+/* Shared text container */
+.material-card {
+  display: flex;
+  flex-direction: column;
+  width: var(--material-card-width);
+  height: auto;
+  max-width: calc(100vw - 48px);
+  padding: 36px 40px 32px;
+  background: #fff;
+  box-shadow: 0 12px 48px rgba(13, 44, 132, 0.12);
+  box-sizing: border-box;
+}
+
+.material-card__index {
+  flex-shrink: 0;
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-header);
+  opacity: 0.55;
+}
+
+.material-card__title {
+  flex-shrink: 0;
+  margin: 0 0 16px;
+  font-size: clamp(14px, 1.6vw, 20px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-header);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.material-card__body {
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  line-height: 1.534;
+  color: var(--color-gray-900);
+}
+
+.material-card__body p {
+  margin: 0;
+}
+
+.material-card__body p + p {
+  margin-top: 1em;
+}
+
+/* Chapters — height follows content, image fills section */
+.material-chapter {
+  position: relative;
+  width: 100%;
+}
+
+.material-chapter__backdrop {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.material-chapter__overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: max(var(--material-chapter-min-height), fit-content);
+  padding: calc(var(--menu-height) + var(--size-24) + 32px) var(--page-gutter) 64px;
+}
+
+.material-chapter--pencil {
+  --material-chapter-min-height: 115vh;
+}
+
+.material-chapter--ink {
+  --material-chapter-min-height: 105vh;
+}
+
+.material-chapter--paper {
+  --material-chapter-min-height: 95vh;
+}
+
+@media (max-width: 1199px) {
+  .material-chapter--pencil {
+    --material-chapter-min-height: 110vh;
+  }
+
+  .material-chapter--ink {
+    --material-chapter-min-height: 100vh;
+  }
+
+  .material-chapter--paper {
+    --material-chapter-min-height: 90vh;
+  }
+}
+
+@media (max-width: 900px) {
+  .material-chapter__overlay {
+    padding-top: calc(var(--menu-height) + var(--size-24) + 16px);
+    padding-bottom: 48px;
+  }
+}
+
+@media (max-width: 767px) {
+  .material-landing__header {
+    margin-left: 0;
+  }
+
+  .material-page {
+    --material-card-width: 100%;
+  }
+
+  .material-card {
+    padding: 24px 20px 20px;
+    box-shadow: 0 8px 32px rgba(13, 44, 132, 0.1);
+  }
+
+  .material-chapter__overlay {
+    padding-bottom: 40px;
+  }
+
+  .material-chapter--pencil {
+    --material-chapter-min-height: 100vh;
+  }
+
+  .material-chapter--ink,
+  .material-chapter--paper {
+    --material-chapter-min-height: 90vh;
+  }
+
+  .material-page__nav {
+    gap: 8px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .material-chapter__backdrop {
+    background-attachment: scroll;
+  }
+}
