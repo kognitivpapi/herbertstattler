@@ -288,30 +288,37 @@
 
 @media (max-width: 767px) {
   .discover-page--mobile {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto auto auto minmax(0, 1fr);
     align-items: stretch;
-    justify-content: flex-start;
+    justify-content: stretch;
+    height: 100dvh;
+    max-height: 100dvh;
     touch-action: none;
+    overflow: hidden;
   }
 
   .discover-page--mobile .discover-page__title {
     position: relative;
     top: auto;
     left: auto;
+    grid-row: 1;
     flex-shrink: 0;
-    padding: var(--discover-back-top) var(--discover-inset) 12px;
+    padding: var(--discover-back-top) var(--discover-inset) 8px;
     margin: 0;
   }
 
+  .discover-page--mobile .discover-page__mobile-layout {
+    grid-row: 2;
+  }
+
   .discover-page__mobile-layout {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     min-height: 0;
-    padding: 0 var(--discover-inset);
+    padding: 4px var(--discover-inset) 0;
   }
 
   .discover-page__mobile-stage {
@@ -371,12 +378,31 @@
   }
 
   .discover-page--mobile .discover-page__footer {
-    position: relative;
-    left: auto;
-    right: auto;
-    bottom: auto;
+    display: contents;
+  }
+
+  .discover-page__footer {
+    padding-bottom: max(var(--discover-inset), env(safe-area-inset-bottom, 0px));
+  }
+
+  .discover-page__mobile-bar {
+    grid-row: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: 48px;
+    padding: 12px var(--discover-inset);
+    box-sizing: content-box;
+    pointer-events: auto;
     flex-shrink: 0;
-    background: none;
+  }
+
+  .discover-page__nav-btn--mobile {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    background: #fff;
   }
 
   .discover-page__wrapper {
@@ -406,34 +432,15 @@
     border: 0;
   }
 
-  .discover-page__footer {
-    padding-bottom: max(var(--discover-inset), env(safe-area-inset-bottom, 0px));
-    background: linear-gradient(
-      to top,
-      #fff 0%,
-      #fff 88%,
-      transparent 100%
-    );
-  }
-
-  .discover-page__mobile-bar {
-    display: flex;
-  }
-
-  .discover-page__nav-btn--mobile {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    background: #fff;
-  }
-
   .discover-page__info {
+    grid-row: 4;
     position: relative;
     left: auto;
     right: auto;
     bottom: auto;
     max-width: none;
-    max-height: min(38vh, 280px);
+    min-height: 0;
+    max-height: none;
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
