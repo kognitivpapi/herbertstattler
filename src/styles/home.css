@@ -561,16 +561,17 @@
   .home-link--stories {
     flex-direction: row;
     margin-top: 0;
-    align-items: flex-start;
+    align-items: center;
   }
 
-  .home-link--exhibition {
-    align-items: flex-start;
-  }
-
+  .home-link--exhibition,
   .home-link--about,
   .home-link--artlab {
-    align-items: flex-end;
+    align-items: center;
+  }
+
+  .home-link__label {
+    line-height: 28px;
   }
 
   .home-logo {
