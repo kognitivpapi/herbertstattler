@@ -15,6 +15,11 @@ export interface AboutShopGallery {
   note: string
 }
 
+export interface WorkShopLink {
+  label: string
+  url: string
+}
+
 export const aboutShopIntro =
   'Artist\'s books are available from Spector Books. For drawings, editions, and gallery works, please contact the galleries below.'
 
@@ -84,3 +89,38 @@ export const aboutShopGalleries: AboutShopGallery[] = [
     note: 'Artist\'s books and prints',
   },
 ]
+
+const workSpecialEditionShopLinks: Record<string, WorkShopLink> = {
+  'lace-ware-album': {
+    label: 'Special edition at Galerie Druck & Buch',
+    url: 'https://www.druckundbuch.com/',
+  },
+  'spitzenwaren-album': {
+    label: 'Special edition at Galerie Druck & Buch',
+    url: 'https://www.druckundbuch.com/',
+  },
+  'woher-kommen-kinder': {
+    label: 'Special edition at Galerie Druck & Buch',
+    url: 'https://www.druckundbuch.com/',
+  },
+  'where-do-little-children': {
+    label: 'Special edition at Galerie Druck & Buch',
+    url: 'https://www.druckundbuch.com/',
+  },
+}
+
+export function getWorkShopLinks(workId: string): WorkShopLink[] {
+  const links: WorkShopLink[] = aboutShopBooks
+    .filter((book) => book.workId === workId)
+    .map((book) => ({
+      label: 'Buy at Spector Books',
+      url: book.shopUrl,
+    }))
+
+  const specialEdition = workSpecialEditionShopLinks[workId]
+  if (specialEdition) {
+    links.push(specialEdition)
+  }
+
+  return links
+}
