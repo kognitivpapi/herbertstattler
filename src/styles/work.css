@@ -182,6 +182,35 @@
   color: inherit;
 }
 
+/* Standard layout — align hero, header, and body to the same left edge */
+.work-page__layout .standard-page__top {
+  align-items: flex-start;
+}
+
+.work-page__layout .standard-page__hero,
+.work-page__layout .standard-page__header {
+  margin-left: var(--page-indent);
+  max-width: var(--page-content-width);
+}
+
+.work-page__layout .standard-page__hero {
+  width: var(--standard-page-hero-width);
+}
+
+.work-page__layout .standard-page__header {
+  width: 100%;
+  text-align: left;
+}
+
+.work-page__layout .standard-page__header .work-page__header {
+  margin: 0;
+  max-width: 100%;
+}
+
+.work-page__layout .standard-page__hero-credit {
+  text-align: left;
+}
+
 @media (max-width: 1199px) {
   .work-page__header,
   .work-page__text,
@@ -194,6 +223,15 @@
 
   .work-page__figure {
     padding: 43px 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .work-page__layout .standard-page__hero,
+  .work-page__layout .standard-page__header {
+    margin-left: 0;
+    max-width: 100%;
+    width: 100%;
   }
 }
 
