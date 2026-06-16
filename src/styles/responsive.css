@@ -1,0 +1,116 @@
+/* Site-wide responsive helpers — imported after page tokens in index.css */
+
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Notched devices */
+@supports (padding: env(safe-area-inset-top)) {
+  .sticky-menu-wrap {
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-left: max(var(--size-16), env(safe-area-inset-left));
+    padding-right: max(var(--size-16), env(safe-area-inset-right));
+  }
+
+  .discover-page__info {
+    bottom: max(var(--discover-inset), env(safe-area-inset-bottom));
+  }
+
+  .discover-back-btn {
+    top: max(var(--discover-back-top), calc(env(safe-area-inset-top) + var(--menu-height) * 0.5));
+    right: max(var(--discover-inset), env(safe-area-inset-right));
+  }
+
+  .discover-page__title {
+    left: max(var(--discover-inset), env(safe-area-inset-left));
+  }
+}
+
+/* Short viewports — home landing */
+@media (max-height: 720px) and (max-width: 900px) {
+  .home-wordmark__line--top,
+  .home-wordmark__line--bottom {
+    font-size: clamp(38px, 9vw, 58px);
+  }
+
+  .home-grid {
+    padding-bottom: 12px;
+  }
+
+  .home-middle {
+    gap: 12px;
+  }
+}
+
+@media (max-height: 560px) {
+  .home-wordmark__line--top,
+  .home-wordmark__line--bottom {
+    font-size: clamp(30px, 7.5vw, 46px);
+    line-height: 0.95;
+  }
+
+  .home-tagline {
+    font-size: 13px;
+    max-width: 24ch;
+  }
+
+  .home-link--stories {
+    margin-top: 0;
+  }
+}
+
+/* Landscape phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-page {
+    min-height: 100dvh;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .home-page__grid {
+    min-height: 100dvh;
+  }
+
+  body:has(.home-page) {
+    overflow: auto;
+  }
+}
+
+/* Discover — limited vertical space */
+@media (max-height: 700px) {
+  .discover-page__info-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+@media (max-height: 580px) and (max-width: 767px) {
+  .discover-page__wrapper {
+    --base-size: 88px;
+  }
+
+  .discover-page__info-name,
+  .discover-page__info-title {
+    font-size: 15px;
+  }
+
+  .discover-page__info-year {
+    font-size: 12px;
+  }
+
+  .discover-page__info-description {
+    -webkit-line-clamp: 2;
+    font-size: 13px;
+  }
+}
