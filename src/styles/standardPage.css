@@ -74,6 +74,16 @@
   max-width: var(--page-content-width);
 }
 
+@media (max-width: 1199px) {
+  .standard-page {
+    --standard-page-hero-width: min(480px, 58vw);
+  }
+
+  .standard-page__body {
+    margin-top: 2.5rem;
+  }
+}
+
 @media (max-width: 900px) {
   .standard-page {
     --standard-page-hero-width: 100%;
@@ -102,3 +112,26 @@
   }
 }
 
+@media (max-width: 767px) {
+  .standard-page__top {
+    gap: 1.25rem;
+  }
+
+  .standard-page__body {
+    margin-top: 2rem;
+  }
+
+  .standard-page__hero-image {
+    border-radius: 8px;
+  }
+
+  .standard-page__hero-credit {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .standard-page__body {
+    margin-top: 1.5rem;
+  }
+}
