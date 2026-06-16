@@ -2,6 +2,8 @@ import { useCallback, useState, type CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import type { PortfolioItem } from '../data/portfolio'
 import {
+  getMobileCarouselItemHeight,
+  getMobileCarouselItemSize,
   getMobileItemStep,
   getMobileSliderItemLayout,
   getSwipeThresholds,
@@ -13,6 +15,7 @@ interface MobileDiscoverCarouselProps {
   items: PortfolioItem[]
   activeIndex: number
   viewportWidth: number
+  viewportHeight: number
   onSelect: (index: number) => void
 }
 
@@ -20,11 +23,13 @@ export function MobileDiscoverCarousel({
   items,
   activeIndex,
   viewportWidth,
+  viewportHeight,
   onSelect,
 }: MobileDiscoverCarouselProps) {
   const [dragOffset, setDragOffset] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
-  const itemWidth = Math.min(viewportWidth * 0.34, 132)
+  const itemWidth = getMobileCarouselItemSize(viewportWidth, viewportHeight)
+  const itemHeight = getMobileCarouselItemHeight(itemWidth)
   const itemStep = getMobileItemStep(itemWidth)
   const { offset: swipeOffset, velocity: swipeVelocity } =
     getSwipeThresholds(viewportWidth)
@@ -57,7 +62,7 @@ export function MobileDiscoverCarousel({
       style={
         {
           '--mobile-item-width': `${itemWidth}px`,
-          '--mobile-item-height': `${itemWidth * 1.2}px`,
+          '--mobile-item-height': `${itemHeight}px`,
           '--mobile-item-step': `${itemStep}px`,
         } as CSSProperties
       }
