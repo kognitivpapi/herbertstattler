@@ -1,12 +1,14 @@
 .standard-page {
+  --standard-page-hero-width: min(560px, 52vw);
   min-height: 100vh;
   color: #000;
 }
 
 .standard-page__main {
-  width: min(1120px, calc(100% - 4rem));
+  width: 100%;
+  max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: 6.5rem 0 5rem;
+  padding: var(--page-top-padding) var(--page-gutter) var(--page-bottom-padding);
 }
 
 .standard-page__top {
@@ -16,9 +18,14 @@
   gap: 1.75rem;
 }
 
+.standard-page__hero,
+.standard-page__header {
+  width: var(--standard-page-hero-width);
+  max-width: 100%;
+}
+
 .standard-page__hero {
   margin: 0;
-  width: min(560px, 42vw);
 }
 
 .standard-page__hero-image {
@@ -36,7 +43,6 @@
 }
 
 .standard-page__header {
-  max-width: min(560px, 42vw);
   text-align: right;
 }
 
@@ -47,29 +53,67 @@
   max-width: 100%;
 }
 
+.standard-page__header .about-page__title,
+.standard-page__header .exhibitions-page__title,
+.standard-page__header .work-page__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.standard-page__header .work-page__title-name,
+.standard-page__header .work-page__title-year {
+  display: inline;
+  margin-top: 0;
+}
+
+.standard-page__header .work-page__title-year {
+  font-size: clamp(14px, 2.2vw, 32px);
+}
+
+.standard-page__header .work-page__title-year::before {
+  content: ' ';
+}
+
 .standard-page__body {
   margin-top: 3rem;
 }
 
+.standard-page__body .about-page__biography,
+.standard-page__body .about-page__section,
+.standard-page__body .exhibitions-page__section,
+.standard-page__body .work-page__text,
+.standard-page__body .work-page__gallery,
+.standard-page__body .work-page__footer-note {
+  margin-left: var(--page-indent);
+  max-width: var(--page-content-width);
+}
+
 @media (max-width: 900px) {
-  .standard-page__main {
-    width: min(920px, calc(100% - 2.5rem));
-    padding-top: 6rem;
+  .standard-page {
+    --standard-page-hero-width: 100%;
   }
 
   .standard-page__top {
     align-items: stretch;
   }
 
-  .standard-page__hero,
   .standard-page__header {
-    width: 100%;
-    max-width: 100%;
     text-align: left;
   }
 
   .standard-page__hero-credit {
     text-align: left;
+  }
+
+  .standard-page__body .about-page__biography,
+  .standard-page__body .about-page__section,
+  .standard-page__body .exhibitions-page__section,
+  .standard-page__body .work-page__text,
+  .standard-page__body .work-page__gallery,
+  .standard-page__body .work-page__footer-note {
+    margin-left: 0;
+    max-width: 100%;
   }
 }
 
