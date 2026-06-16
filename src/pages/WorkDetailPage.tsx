@@ -43,14 +43,13 @@ export function WorkDetailPage() {
     [workId, navigationState],
   )
 
-  const openDiscover = () => navigate('/', { state: { discover: true } })
   const backToDiscover = () =>
     navigate('/', { state: { discover: true, discoverIndex } })
 
   if (!work) {
     return (
       <div className="work-page">
-        <StickyMenu onNavigate={openDiscover} />
+        <StickyMenu />
         <DiscoverBackButton onClick={backToDiscover} />
         <main className="work-page__content">
           <p className="work-page__body">Work not found.</p>
@@ -71,7 +70,6 @@ export function WorkDetailPage() {
       <DiscoverBackButton onClick={backToDiscover} />
       <StandardPageLayout
         className="work-page__layout"
-        onNavigate={openDiscover}
         heroImage={
           heroItem
             ? {
