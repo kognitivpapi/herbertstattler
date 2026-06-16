@@ -119,6 +119,7 @@ body:has(.home-page) {
     --page-content-width: min(932px, calc(100vw - 2 * var(--page-gutter)));
     --page-top-padding: calc(var(--menu-height) + var(--size-24) + 24px);
     --page-bottom-padding: 72px;
+    --home-gutter: clamp(48px, 6vw, 80px);
   }
 }
 
@@ -132,6 +133,7 @@ body:has(.home-page) {
     --page-bottom-padding: 60px;
     --page-header-gap: 32px;
     --page-section-gap: 40px;
+    --home-gutter: clamp(32px, 5vw, 56px);
   }
 }
 
@@ -145,6 +147,7 @@ body:has(.home-page) {
     --page-header-gap: 28px;
     --discover-inset: 16px;
     --discover-back-top: calc(var(--menu-height) + 12px);
+    --home-gutter: var(--page-gutter);
   }
 }
 
