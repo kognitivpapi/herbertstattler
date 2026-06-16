@@ -18,6 +18,11 @@ const introRevealTransition: Transition = {
   ease: [0.22, 1, 0.36, 1],
 }
 
+const submenuTransition: Transition = {
+  duration: 0.28,
+  ease: [0.22, 1, 0.36, 1],
+}
+
 function splitChars(text: string) {
   return Array.from(text)
 }
@@ -71,6 +76,8 @@ function TitleReveal({
 }
 
 interface StickyMenuProps {
+  /** Open the work overview (Discover) when already on `/`. */
+  onWorkNavigate?: () => void
   /** Reset landing page when already on `/` (close overlays, etc.). */
   onHomeReset?: () => void
   /** Fade/slide in during the one-time landing intro. */
@@ -80,6 +87,7 @@ interface StickyMenuProps {
 }
 
 export function StickyMenu({
+  onWorkNavigate,
   onHomeReset,
   introReveal = false,
   contextLabel: contextLabelOverride,
@@ -107,6 +115,15 @@ export function StickyMenu({
     navigate('/')
   }
 
+  const goToWorkPage = () => {
+    closeMenu()
+    if (location.pathname === '/') {
+      onWorkNavigate?.()
+      return
+    }
+    navigate('/', { state: { discover: true } })
+  }
+
   const handleMenuItem = (to: string) => {
     closeMenu()
     navigate(to)
@@ -126,6 +143,10 @@ export function StickyMenu({
     })
   }
 
+  const toggleWorkList = () => {
+    setWorkMenuOpen((value) => !value)
+  }
+
   return (
     <motion.header
       className="sticky-menu-wrap"
@@ -141,8 +162,8 @@ export function StickyMenu({
               <TitleReveal text="Herbert Stattler" active={introReveal} />
             </button>
             <span className="sticky-menu__sep">|</span>
-            <span className="sticky-menu__context" aria-current="page">
-              <TitleReveal text={contextLabel} active={introReveal} />
+            <span className="sticky-menu__context" aria-current="page" title={contextLabel}>
+              {contextLabel}
             </span>
           </div>
           <button
@@ -166,57 +187,72 @@ export function StickyMenu({
               exit={{ opacity: 0, y: -6 }}
               className={`sticky-menu-dropdown${workMenuOpen ? ' sticky-menu-dropdown--work-open' : ''}`}
             >
-              <div className="sticky-menu-dropdown__viewport">
-                <div className="sticky-menu-dropdown__panel">
-                  <ul>
-                    <li>
-                      <button
-                        type="button"
-                        aria-expanded={workMenuOpen}
-                        onClick={() => setWorkMenuOpen(true)}
-                      >
-                        Work
-                        <ArrowIcon />
-                      </button>
-                    </li>
-                    {otherMenuItems.map(({ label, to }) => (
-                      <li key={label}>
-                        <button type="button" onClick={() => handleMenuItem(to)}>
-                          {label}
-                          <ArrowIcon />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <ul>
+                <li className="sticky-menu-dropdown__item sticky-menu-dropdown__item--work">
+                  <div className="sticky-menu-dropdown__split">
+                    <button
+                      type="button"
+                      className="sticky-menu-dropdown__split-label"
+                      onClick={goToWorkPage}
+                    >
+                      Work
+                    </button>
+                    <button
+                      type="button"
+                      className="sticky-menu-dropdown__split-arrow"
+                      aria-expanded={workMenuOpen}
+                      aria-label="Browse individual works"
+                      onClick={toggleWorkList}
+                    >
+                      <ArrowIcon />
+                    </button>
+                  </div>
 
-                <div className="sticky-menu-dropdown__panel sticky-menu-dropdown__panel--works">
-                  <button
-                    type="button"
-                    className="sticky-menu-dropdown__back"
-                    onClick={() => setWorkMenuOpen(false)}
-                  >
-                    <ArrowIcon className="sticky-menu-dropdown__back-icon" />
-                    Work
-                  </button>
-                  <ul className="sticky-menu-dropdown__work-list">
-                    {portfolioData.map((item, index) => (
-                      <li key={item.id}>
-                        <button
-                          type="button"
-                          className={`sticky-menu-dropdown__work-item${
-                            workId === item.id ? ' sticky-menu-dropdown__work-item--active' : ''
-                          }`}
-                          onClick={() => handleWorkSelect(item.id, index)}
-                        >
-                          <span className="sticky-menu-dropdown__work-title">{item.title}</span>
-                          <span className="sticky-menu-dropdown__work-year">{item.year}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+                  <AnimatePresence initial={false}>
+                    {workMenuOpen && (
+                      <motion.div
+                        className="sticky-menu-dropdown__work-submenu"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={submenuTransition}
+                      >
+                        <ul className="sticky-menu-dropdown__work-list">
+                          {portfolioData.map((item, index) => (
+                            <li key={item.id}>
+                              <button
+                                type="button"
+                                className={`sticky-menu-dropdown__work-item${
+                                  workId === item.id
+                                    ? ' sticky-menu-dropdown__work-item--active'
+                                    : ''
+                                }`}
+                                onClick={() => handleWorkSelect(item.id, index)}
+                              >
+                                <span className="sticky-menu-dropdown__work-title">
+                                  {item.title}
+                                </span>
+                                <span className="sticky-menu-dropdown__work-year">
+                                  {item.year}
+                                </span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </li>
+
+                {otherMenuItems.map(({ label, to }) => (
+                  <li key={label} className="sticky-menu-dropdown__item">
+                    <button type="button" onClick={() => handleMenuItem(to)}>
+                      <span className="sticky-menu-dropdown__label">{label}</span>
+                      <ArrowIcon />
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           )}
         </AnimatePresence>
