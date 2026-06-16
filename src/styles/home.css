@@ -557,19 +557,9 @@
     align-self: start;
   }
 
-  .home-link--about,
-  .home-link--artlab {
-    align-self: end;
-  }
-
   .home-link--stories .home-link__icon,
   .home-link--exhibition .home-link__icon {
     align-self: start;
-  }
-
-  .home-link--about .home-link__icon,
-  .home-link--artlab .home-link__icon {
-    align-self: end;
   }
 
   .home-link__icon,
@@ -588,8 +578,28 @@
     align-self: center;
   }
 
-  .home-link--stories .home-link__label,
+  .home-link--stories .home-link__label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .home-link--about,
+  .home-link--artlab {
+    display: flex;
+    flex-direction: row;
+    align-self: end;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .home-link--about .home-link__icon,
+  .home-link--artlab .home-link__icon,
+  .home-link--about .home-link__label,
   .home-link--artlab .home-link__label {
+    grid-column: unset;
+    grid-row: unset;
+    align-self: auto;
+    line-height: 28px;
     writing-mode: horizontal-tb;
     transform: none;
   }
@@ -673,8 +683,7 @@
     max-width: 38vw;
   }
 
-  .home-link--exhibition .home-link__label,
-  .home-link--artlab .home-link__label {
+  .home-link--exhibition .home-link__label {
     line-height: 1.15;
   }
 
