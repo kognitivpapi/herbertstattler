@@ -12,6 +12,7 @@ import {
   getItemRotation,
   seededRandom,
 } from '../lib/carouselMath'
+import { clamp01, getIntroStartPose } from '../lib/homeIntro'
 
 const MOBILE_BREAKPOINT = 768
 const FADE_DURATION = 1.25
@@ -58,11 +59,13 @@ function CarouselItem({
   visible,
   item,
   texture,
+  introProgress,
 }: {
   index: number
   visible: boolean
   item: PortfolioItem
   texture: THREE.Texture
+  introProgress: number
 }) {
   const material = useRef<THREE.MeshBasicMaterial>(null)
   const aspect = getTextureAspect(texture, item.aspectRatio)
@@ -70,6 +73,26 @@ function CarouselItem({
   const angle = getItemAngle(index)
   const position = getItemPosition(angle)
   const rotation = getItemRotation(angle)
+  const startPose = useMemo(() => getIntroStartPose(index), [index])
+  const intro = clamp01(introProgress)
+  const eased = intro * intro
+  const easedScale = intro < 0.85 ? intro * 0.95 : 0.8075 + (intro - 0.85) / 0.15 * 0.1925
+  const flyPos = useMemo(() => {
+    const target = new THREE.Vector3(position[0], position[1], position[2])
+    return startPose.position.clone().lerp(target, eased)
+  }, [eased, position, startPose.position])
+  const flyRot = useMemo(() => {
+    const target = new THREE.Euler(rotation[0], rotation[1], rotation[2])
+    return new THREE.Euler(
+      THREE.MathUtils.lerp(startPose.rotation.x, target.x, eased),
+      THREE.MathUtils.lerp(startPose.rotation.y, target.y, eased),
+      THREE.MathUtils.lerp(startPose.rotation.z, target.z, eased),
+    )
+  }, [eased, rotation, startPose.rotation])
+  const flyScale = useMemo(() => {
+    const k = clamp01(easedScale)
+    return [scale[0] * k, scale[1] * k, scale[2] * k] as [number, number, number]
+  }, [easedScale, scale])
   const fadeDelay = useMemo(() => seededRandom(index) * 0.01, [index])
   const elapsed = useRef(0)
   const opacity = useRef(0)
@@ -86,8 +109,8 @@ function CarouselItem({
   })
 
   return (
-    <group position={position} rotation={rotation}>
-      <mesh scale={scale}>
+    <group position={flyPos} rotation={flyRot}>
+      <mesh scale={flyScale}>
         <planeGeometry args={[1, 1]} />
         <meshBasicMaterial
           ref={material}
@@ -102,14 +125,22 @@ function CarouselItem({
   )
 }
 
-function CarouselRing({ visible }: { visible: boolean }) {
+function CarouselRing({
+  visible,
+  allowRotation,
+  introProgress,
+}: {
+  visible: boolean
+  allowRotation: boolean
+  introProgress: number
+}) {
   const group = useRef<THREE.Group>(null)
   const imageUrls = useMemo(() => CAROUSEL_ITEMS.map((item) => item.imageUrl), [])
   const textures = useTexture(imageUrls)
 
   useFrame((_, delta) => {
     if (!group.current || !visible) return
-    group.current.rotation.y += delta / 15
+    if (allowRotation) group.current.rotation.y += delta / 15
   })
 
   return (
@@ -121,6 +152,7 @@ function CarouselRing({ visible }: { visible: boolean }) {
           visible={visible}
           item={entry}
           texture={textures[i]}
+          introProgress={introProgress}
         />
       ))}
     </group>
@@ -156,18 +188,30 @@ function CarouselCamera({ visible }: { visible: boolean }) {
   )
 }
 
-function CarouselScene() {
+function CarouselScene({
+  allowRotation,
+  introProgress,
+}: {
+  allowRotation: boolean
+  introProgress: number
+}) {
   const visible = usePageVisible()
 
   return (
     <>
       <CarouselCamera visible={visible} />
-      <CarouselRing visible={visible} />
+      <CarouselRing visible={visible} allowRotation={allowRotation} introProgress={introProgress} />
     </>
   )
 }
 
-export function HomeCarousel() {
+export function HomeCarousel({
+  introProgress = 1,
+  allowRotation = true,
+}: {
+  introProgress?: number
+  allowRotation?: boolean
+}) {
   const [dpr, setDpr] = useState(2)
 
   return (
@@ -185,7 +229,7 @@ export function HomeCarousel() {
           onDecline={() => setDpr(1)}
         />
         <Suspense fallback={null}>
-          <CarouselScene />
+          <CarouselScene allowRotation={allowRotation} introProgress={introProgress} />
         </Suspense>
       </Canvas>
     </div>
