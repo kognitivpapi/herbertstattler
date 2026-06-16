@@ -86,14 +86,14 @@
 }
 
 .contact-page__address-name {
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 4px;
 }
 
 .contact-page__galleries-title {
   margin: 0 0 12px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-header);
@@ -120,7 +120,7 @@
   display: block;
   color: var(--color-gray-900);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .contact-page__gallery-list a:hover {
@@ -148,7 +148,7 @@
 
 .contact-form__label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--color-gray-900);
 }
 
@@ -160,7 +160,7 @@
   border-radius: 0;
   background: #fff;
   padding: 10px 12px;
-  font-family: var(--font-sans);
+  font-family: inherit;
   font-size: 16px;
   line-height: 1.45;
   color: var(--color-gray-900);
@@ -185,9 +185,9 @@
   background: var(--color-gray-900);
   color: #fff;
   padding: 10px 24px;
-  font-family: var(--font-sans);
+  font-family: inherit;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
