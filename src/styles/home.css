@@ -101,7 +101,7 @@
   align-self: start;
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   gap: var(--size-16);
   pointer-events: auto;
 }
@@ -219,11 +219,11 @@
 
 .discover-btn {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--size-16);
   font-size: 16px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 32px;
   color: #000;
   background: transparent;
   border: none;
@@ -240,7 +240,6 @@
   border: 1px solid #000;
   color: #000;
   flex: 0 0 auto;
-  transform: translateY(1px);
   transition:
     background-color 0.35s ease,
     color 0.35s ease;
