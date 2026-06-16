@@ -63,4 +63,19 @@
   .page-landing__nav {
     gap: 8px 16px;
   }
+
+  .page-landing__title {
+    letter-spacing: 0.6px;
+  }
+
+  .page-landing__description {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-landing__nav-link {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
 }
