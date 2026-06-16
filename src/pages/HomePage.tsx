@@ -16,15 +16,51 @@ import {
 } from '../lib/homeIntro'
 import '../styles/home.css'
 
+function getInitialIntroState() {
+  if (typeof window === 'undefined') {
+    return {
+      introProgress: 1,
+      showHeader: true,
+      headerIntroReveal: false,
+      showHomeText: true,
+      introActive: true,
+    }
+  }
+
+  const reducedMotion =
+    window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+  const alreadyDone = sessionStorage.getItem(HOME_INTRO_STORAGE_KEY) === '1'
+
+  if (reducedMotion || alreadyDone) {
+    return {
+      introProgress: 1,
+      showHeader: true,
+      headerIntroReveal: false,
+      showHomeText: true,
+      introActive: true,
+    }
+  }
+
+  return {
+    introProgress: 0,
+    showHeader: false,
+    headerIntroReveal: false,
+    showHomeText: false,
+    introActive: false,
+  }
+}
+
 export function HomePage() {
   const location = useLocation()
   const reducedMotion = useReducedMotion()
+  const initialIntro = useRef(getInitialIntroState()).current
   const [showCollection, setShowCollection] = useState(false)
   const [collectionInitialIndex, setCollectionInitialIndex] = useState(0)
-  const [introProgress, setIntroProgress] = useState(1)
-  const [showHeader, setShowHeader] = useState(true)
-  const [headerIntroReveal, setHeaderIntroReveal] = useState(false)
-  const [showHomeText, setShowHomeText] = useState(true)
+  const [introProgress, setIntroProgress] = useState(initialIntro.introProgress)
+  const [showHeader, setShowHeader] = useState(initialIntro.showHeader)
+  const [headerIntroReveal, setHeaderIntroReveal] = useState(initialIntro.headerIntroReveal)
+  const [showHomeText, setShowHomeText] = useState(initialIntro.showHomeText)
+  const [introActive, setIntroActive] = useState(initialIntro.introActive)
   const startedRef = useRef(false)
 
   const openCollection = useCallback((index = 0) => {
@@ -62,6 +98,7 @@ export function HomePage() {
       setIntroProgress(1)
       setShowHeader(true)
       setShowHomeText(true)
+      setIntroActive(true)
       return
     }
 
@@ -70,12 +107,14 @@ export function HomePage() {
       setIntroProgress(1)
       setShowHeader(true)
       setShowHomeText(true)
+      setIntroActive(true)
       return
     }
 
     setIntroProgress(0)
     setShowHeader(false)
     setShowHomeText(false)
+    setIntroActive(true)
 
     const startedAt = performance.now()
     let raf = 0
@@ -108,7 +147,11 @@ export function HomePage() {
   return (
     <div className="home-page">
       <div className="home-page__grid">
-        <HomeCarousel introProgress={introProgress} allowRotation={showHomeText} />
+        <HomeCarousel
+          introProgress={introProgress}
+          allowRotation={showHomeText}
+          active={introActive}
+        />
         <HomeGrid visible={showHomeText} onDiscover={() => openCollection(0)} />
       </div>
       {showHeader && (
