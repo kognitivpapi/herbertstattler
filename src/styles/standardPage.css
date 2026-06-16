@@ -69,6 +69,7 @@
 .standard-page__body .exhibitions-page__section,
 .standard-page__body .work-page__text,
 .standard-page__body .work-page__shop,
+.standard-page__body .work-page__video,
 .standard-page__body .work-page__gallery,
 .standard-page__body .work-page__footer-note {
   margin-left: var(--page-indent);
