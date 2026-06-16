@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { DiscoverBackButton } from '../components/DiscoverBackButton'
 import { StickyMenu } from '../components/StickyMenu'
+import { StandardPageLayout } from '../components/StandardPageLayout'
 import { WorkDialogue } from '../components/WorkDialogue'
 import { portfolioData } from '../data/portfolio'
 import { getWorkDetail } from '../data/workDetails'
@@ -62,37 +63,50 @@ export function WorkDetailPage() {
   }
 
   const { name: titleName, year: titleYear } = splitWorkTitle(work.title)
+  const heroItem = work.gallery[0]
+  const galleryItems = work.gallery.slice(1)
 
   return (
     <div className="work-page">
-      <StickyMenu onNavigate={openDiscover} />
       <DiscoverBackButton onClick={backToDiscover} />
-      <main className="work-page__content">
-        <header className="work-page__header">
-          <h1 className="work-page__title">
-            <span className="work-page__title-name">{decodeText(titleName)}</span>
-            {titleYear && (
-              <span className="work-page__title-year">{decodeText(titleYear)}</span>
-            )}
-          </h1>
-          {work.subtitle && (
-            <h2 className="work-page__subtitle">
-              {martinBauerSubtitleParts[work.id] ? (
-                <>
-                  <span className="work-page__subtitle-muted">
-                    {decodeText(martinBauerSubtitleParts[work.id].lead)}
-                  </span>
-                  <span className="work-page__subtitle-muted">
-                    {decodeText(martinBauerSubtitleParts[work.id].muted)}
-                  </span>
-                </>
-              ) : (
-                decodeText(work.subtitle)
+      <StandardPageLayout
+        className="work-page__layout"
+        onNavigate={openDiscover}
+        heroImage={
+          heroItem
+            ? {
+                src: heroItem.src,
+                alt: heroItem.caption || work.title,
+              }
+            : undefined
+        }
+        header={
+          <div className="work-page__header">
+            <h1 className="work-page__title">
+              <span className="work-page__title-name">{decodeText(titleName)}</span>
+              {titleYear && (
+                <span className="work-page__title-year">{decodeText(titleYear)}</span>
               )}
-            </h2>
-          )}
-        </header>
-
+            </h1>
+            {work.subtitle && (
+              <h2 className="work-page__subtitle">
+                {martinBauerSubtitleParts[work.id] ? (
+                  <>
+                    <span className="work-page__subtitle-muted">
+                      {decodeText(martinBauerSubtitleParts[work.id].lead)}
+                    </span>
+                    <span className="work-page__subtitle-muted">
+                      {decodeText(martinBauerSubtitleParts[work.id].muted)}
+                    </span>
+                  </>
+                ) : (
+                  decodeText(work.subtitle)
+                )}
+              </h2>
+            )}
+          </div>
+        }
+      >
         <div className="work-page__text">
           {work.contentType === 'dialogue' ? (
             <WorkDialogue paragraphs={work.paragraphs} />
@@ -105,14 +119,14 @@ export function WorkDetailPage() {
           )}
         </div>
 
-        {work.gallery.length > 0 && (
+        {galleryItems.length > 0 && (
           <section className="work-page__gallery" aria-label="Work images">
-            {work.gallery.map((item, index) => (
+            {galleryItems.map((item, index) => (
               <figure key={`${item.src}-${index}`} className="work-page__figure">
                 <img
                   src={item.src}
                   alt={item.caption || work.title}
-                  loading={index < 2 ? 'eager' : 'lazy'}
+                  loading={index < 1 ? 'eager' : 'lazy'}
                   className="work-page__image"
                 />
                 {item.caption && (
@@ -128,7 +142,7 @@ export function WorkDetailPage() {
         {work.footerNote && (
           <p className="work-page__footer-note">{decodeText(work.footerNote)}</p>
         )}
-      </main>
+      </StandardPageLayout>
     </div>
   )
 }
