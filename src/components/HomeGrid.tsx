@@ -1,15 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { HOME_LOGO_REVEAL_AT } from '../lib/homeIntro'
 import { DiscoverButton, GridLink, HerbertLogoReveal } from './GridLink'
 
 interface HomeGridProps {
   visible: boolean
-  introProgress: number
   onDiscover: () => void
 }
 
-export function HomeGrid({ visible, introProgress, onDiscover }: HomeGridProps) {
+export function HomeGrid({ visible, onDiscover }: HomeGridProps) {
   const navigate = useNavigate()
 
   const ease = [0.22, 1, 0.36, 1] as const
@@ -20,7 +18,7 @@ export function HomeGrid({ visible, introProgress, onDiscover }: HomeGridProps) 
     show: { opacity: 1, y: 0 },
   } as const
 
-  const logoVisible = visible || introProgress >= HOME_LOGO_REVEAL_AT
+  const logoVisible = visible
 
   const reveal = (index: number) => ({
     initial: false as const,

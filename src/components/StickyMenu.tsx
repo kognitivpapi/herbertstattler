@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence, type Transition } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion, type Transition } from 'framer-motion'
 import { HOME_HEADER_REVEAL_DURATION_MS } from '../lib/homeIntro'
 import { ArrowIcon, CloseIcon, MenuIcon } from './icons'
 
@@ -15,6 +15,58 @@ const menuItems = [
 const introRevealTransition: Transition = {
   duration: HOME_HEADER_REVEAL_DURATION_MS / 1000,
   ease: [0.22, 1, 0.36, 1],
+}
+
+function splitChars(text: string) {
+  return Array.from(text)
+}
+
+function TitleReveal({
+  text,
+  active,
+}: {
+  text: string
+  active: boolean
+}) {
+  const reducedMotion = useReducedMotion()
+
+  if (reducedMotion || !active) return <>{text}</>
+
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.045,
+        delayChildren: 0.08,
+      },
+    },
+  } as const
+
+  const char = {
+    hidden: { opacity: 0, x: -6, filter: 'blur(6px)' },
+    show: { opacity: 1, x: 0, filter: 'blur(0px)' },
+  } as const
+
+  return (
+    <motion.span
+      aria-label={text}
+      variants={container}
+      initial="hidden"
+      animate="show"
+      style={{ display: 'inline-flex' }}
+    >
+      {splitChars(text).map((c, i) => (
+        <motion.span
+          key={`${text}-${i}-${c}`}
+          variants={char}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          style={{ display: 'inline-block', willChange: 'transform, opacity, filter' }}
+        >
+          {c === ' ' ? '\u00A0' : c}
+        </motion.span>
+      ))}
+    </motion.span>
+  )
 }
 
 interface StickyMenuProps {
@@ -61,11 +113,11 @@ export function StickyMenu({ onNavigate, onHomeReset, introReveal = false }: Sti
         <nav className="sticky-menu">
           <div className="sticky-menu__title">
             <button type="button" className="sticky-menu__home-link" onClick={goToLanding}>
-              Herbert Stattler
+              <TitleReveal text="Herbert Stattler" active={introReveal} />
             </button>
             <span className="sticky-menu__sep">|</span>
             <button type="button" className="sticky-menu__home-link" onClick={goToLanding}>
-              Home
+              <TitleReveal text="Home" active={introReveal} />
             </button>
           </div>
           <button

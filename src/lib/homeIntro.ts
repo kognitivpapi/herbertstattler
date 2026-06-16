@@ -3,9 +3,9 @@ import { CAROUSEL_RADIUS, seededRandom } from './carouselMath'
 
 export const HOME_INTRO_STORAGE_KEY = 'hs_home_intro_done'
 export const HOME_INTRO_DURATION_MS = 3000
-export const HOME_HEADER_REVEAL_AT = 0.62
-export const HOME_HEADER_REVEAL_DURATION_MS = 900
-export const HOME_LOGO_REVEAL_AT = 0.58
+// Keep the start "carousel-only" — UI appears late.
+export const HOME_HEADER_REVEAL_AT = 0.92
+export const HOME_HEADER_REVEAL_DURATION_MS = 2000
 
 export function clamp01(t: number) {
   return Math.min(1, Math.max(0, t))
