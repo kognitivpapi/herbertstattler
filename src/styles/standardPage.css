@@ -1,0 +1,74 @@
+.standard-page {
+  min-height: 100vh;
+}
+
+.standard-page__main {
+  width: min(1120px, calc(100% - 4rem));
+  margin: 0 auto;
+  padding: 6.5rem 0 5rem;
+}
+
+.standard-page__top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.75rem;
+}
+
+.standard-page__hero {
+  margin: 0;
+  width: min(560px, 42vw);
+}
+
+.standard-page__hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.standard-page__hero-credit {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  text-align: right;
+}
+
+.standard-page__header {
+  max-width: min(560px, 42vw);
+  text-align: right;
+}
+
+.standard-page__header .about-page__header,
+.standard-page__header .exhibitions-page__header,
+.standard-page__header .work-page__header {
+  margin: 0;
+  max-width: 100%;
+}
+
+.standard-page__body {
+  margin-top: 3rem;
+}
+
+@media (max-width: 900px) {
+  .standard-page__main {
+    width: min(920px, calc(100% - 2.5rem));
+    padding-top: 6rem;
+  }
+
+  .standard-page__top {
+    align-items: stretch;
+  }
+
+  .standard-page__hero,
+  .standard-page__header {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .standard-page__hero-credit {
+    text-align: left;
+  }
+}
+
