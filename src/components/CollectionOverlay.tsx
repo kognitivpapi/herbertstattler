@@ -29,15 +29,21 @@ function useViewportSize() {
   }))
 
   useEffect(() => {
-    const onResize = () => {
-      setSize({ width: window.innerWidth, height: window.innerHeight })
+    const readSize = () => {
+      const viewport = window.visualViewport
+      setSize({
+        width: viewport?.width ?? window.innerWidth,
+        height: viewport?.height ?? window.innerHeight,
+      })
     }
-    onResize()
-    window.addEventListener('resize', onResize)
-    window.visualViewport?.addEventListener('resize', onResize)
+    readSize()
+    window.addEventListener('resize', readSize)
+    window.visualViewport?.addEventListener('resize', readSize)
+    window.visualViewport?.addEventListener('scroll', readSize)
     return () => {
-      window.removeEventListener('resize', onResize)
-      window.visualViewport?.removeEventListener('resize', onResize)
+      window.removeEventListener('resize', readSize)
+      window.visualViewport?.removeEventListener('resize', readSize)
+      window.visualViewport?.removeEventListener('scroll', readSize)
     }
   }, [])
 
@@ -242,6 +248,7 @@ export function CollectionOverlay({
             items={portfolioData}
             activeIndex={activeIndex}
             viewportWidth={width}
+            viewportHeight={height}
             onSelect={goTo}
           />
         ) : (
