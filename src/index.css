@@ -49,6 +49,20 @@ a {
   color: inherit;
 }
 
+/* Sticky menu base styling (shared across pages). */
+.sticky-menu,
+.sticky-menu-dropdown {
+  background: #000;
+  color: #fff;
+}
+
+.sticky-menu__title a,
+.sticky-menu__home-link,
+.sticky-menu__toggle,
+.sticky-menu-dropdown button {
+  color: #fff;
+}
+
 body:has(.work-page),
 body:has(.exhibitions-page),
 body:has(.material-page),
