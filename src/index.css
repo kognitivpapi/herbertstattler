@@ -18,7 +18,7 @@
   --discover-inset: var(--size-16);
   --discover-back-top: calc(var(--menu-height) + var(--size-16));
   --page-max-width: 1200px;
-  --page-content-width: 932px;
+  --page-content-width: min(932px, calc(100vw - 2 * var(--page-gutter) - var(--page-indent)));
   --page-gutter: 60px;
   --page-indent: 76px;
   --page-bottom-padding: 80px;
@@ -114,6 +114,7 @@ body:has(.home-page) {
   :root {
     --page-gutter: 40px;
     --page-indent: 32px;
+    --page-content-width: min(932px, calc(100vw - 2 * var(--page-gutter)));
     --page-top-padding: calc(var(--menu-height) + var(--size-24) + 24px);
     --page-bottom-padding: 72px;
   }
@@ -123,6 +124,8 @@ body:has(.home-page) {
   :root {
     --page-gutter: 24px;
     --page-indent: 0px;
+    --page-content-width: 100%;
+    --menu-width: min(392px, calc(100vw - 2 * var(--page-gutter)));
     --page-top-padding: calc(var(--menu-height) + var(--size-24) + 16px);
     --page-bottom-padding: 60px;
     --page-header-gap: 32px;
@@ -133,18 +136,20 @@ body:has(.home-page) {
 @media (max-width: 767px) {
   :root {
     --page-gutter: 16px;
+    --menu-height: 60px;
+    --menu-width: min(392px, calc(100vw - 2 * var(--page-gutter)));
     --page-top-padding: calc(var(--menu-height) + 16px);
     --page-bottom-padding: 48px;
     --page-header-gap: 28px;
     --discover-inset: 16px;
     --discover-back-top: calc(var(--menu-height) + 12px);
-    --menu-width: min(392px, calc(100vw - 24px));
   }
 }
 
 @media (max-width: 480px) {
   :root {
     --page-gutter: 12px;
+    --menu-height: 56px;
     --page-bottom-padding: 40px;
     --discover-inset: 12px;
   }
