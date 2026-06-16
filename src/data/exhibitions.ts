@@ -311,3 +311,12 @@ export const soloExhibitions = exhibitions
 export const groupExhibitions = exhibitions
   .filter((e) => e.type === 'group')
   .sort((a, b) => b.year - a.year)
+
+export const exhibitionsIntro =
+  'Over the years, my drawings have found their way into galleries, museums, and book spaces across Europe and the United States. Below are the exhibitions that meant the most to me—starting with the most recent—with a few images and notes on what was shown.'
+
+export const exhibitionsNav = [
+  { id: 'featured', shortLabel: 'Highlights' },
+  { id: 'solo', shortLabel: 'Solo exhibitions' },
+  { id: 'group', shortLabel: 'Group exhibitions' },
+] as const
