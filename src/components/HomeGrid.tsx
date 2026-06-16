@@ -31,24 +31,15 @@ export function HomeGrid({ visible, onDiscover }: HomeGridProps) {
     <div className="home-shell">
       <div className="home-grid">
         <div className="home-content">
-          <div className="home-copy">
-            <motion.div
-              className="home-logo"
-              initial={false}
-              animate={logoVisible ? 'show' : 'hidden'}
-              variants={base}
-              transition={{ duration: 0.7, delay: 0.0, ease }}
-            >
-              <HerbertLogoReveal active={logoVisible} />
-            </motion.div>
-
-            <motion.div className="home-middle" {...reveal(5)}>
-              <div className="home-middle__left">
-                <p className="home-tagline">Drawings dealing with everyday topics</p>
-              </div>
-              <DiscoverButton onClick={onDiscover} />
-            </motion.div>
-          </div>
+          <motion.div
+            className="home-logo"
+            initial={false}
+            animate={logoVisible ? 'show' : 'hidden'}
+            variants={base}
+            transition={{ duration: 0.7, delay: 0.0, ease }}
+          >
+            <HerbertLogoReveal active={logoVisible} />
+          </motion.div>
 
           <GridLink
             label="Exhibitions"
@@ -75,6 +66,12 @@ export function HomeGrid({ visible, onDiscover }: HomeGridProps) {
             {...reveal(4)}
           />
 
+          <motion.div className="home-middle" {...reveal(5)}>
+            <div className="home-middle__left">
+              <p className="home-tagline">Drawings dealing with everyday topics</p>
+            </div>
+            <DiscoverButton onClick={onDiscover} />
+          </motion.div>
         </div>
       </div>
     </div>
