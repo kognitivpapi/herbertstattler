@@ -4,9 +4,10 @@ import { DiscoverBackButton } from '../components/DiscoverBackButton'
 import { StickyMenu } from '../components/StickyMenu'
 import { StandardPageLayout } from '../components/StandardPageLayout'
 import { WorkDialogue } from '../components/WorkDialogue'
+import { WorkSpectorVideo } from '../components/WorkSpectorVideo'
 import { portfolioData } from '../data/portfolio'
 import { getWorkDetail } from '../data/workDetails'
-import { getWorkShopLinks } from '../data/aboutShopping'
+import { getWorkShopLinks, getWorkSpectorVideo } from '../data/aboutShopping'
 import type { DiscoverNavigationState } from '../lib/discoverNavigation'
 import { splitWorkTitle, martinBauerSubtitleParts } from '../lib/splitWorkTitle'
 import '../styles/home.css'
@@ -72,6 +73,7 @@ export function WorkDetailPage() {
   const heroItem = work.gallery[0]
   const galleryItems = work.gallery.slice(1)
   const shopLinks = getWorkShopLinks(work.id)
+  const spectorVideo = getWorkSpectorVideo(work.id)
 
   return (
     <div className="work-page">
@@ -142,6 +144,13 @@ export function WorkDetailPage() {
               ))}
             </ul>
           </nav>
+        )}
+
+        {spectorVideo && (
+          <WorkSpectorVideo
+            videoId={spectorVideo.videoId}
+            title={spectorVideo.title}
+          />
         )}
 
         {galleryItems.length > 0 && (
