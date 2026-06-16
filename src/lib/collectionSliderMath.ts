@@ -61,8 +61,8 @@ export function getCarouselItemSize(
   }
 
   const isTablet = isTabletViewport(viewportWidth)
-  const horizontalInset = isTablet ? 136 : 128
-  const widthFactor = isTablet ? 0.19 : 0.24
+  const horizontalInset = isTablet ? 160 : 156
+  const widthFactor = isTablet ? 0.18 : 0.225
   const maxFromWidth = (viewportWidth - horizontalInset) * widthFactor
 
   const titleChrome = isTablet ? 108 : 96
