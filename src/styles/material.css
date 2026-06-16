@@ -65,8 +65,7 @@
   max-width: 52ch;
   font-size: clamp(12px, 1.2vw, 15px);
   line-height: 1.534;
-  color: var(--color-gray-900);
-  opacity: 0.85;
+  color: var(--color-text-muted);
 }
 
 /* Shared text container */
@@ -88,8 +87,7 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.14em;
-  color: var(--color-header);
-  opacity: 0.55;
+  color: var(--color-text-muted);
 }
 
 .material-card__title {
@@ -210,5 +208,70 @@
 @media (prefers-reduced-motion: reduce) {
   .material-chapter__backdrop {
     background-attachment: scroll;
+  }
+}
+
+/* Loading screen — pen drawing circular lines */
+.material-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  pointer-events: all;
+}
+
+.material-loading__stage {
+  position: relative;
+  width: min(520px, 88vw);
+  aspect-ratio: 1;
+}
+
+.material-loading__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.material-loading__line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.material-loading__line--track {
+  stroke: rgba(0, 0, 0, 0.06);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.material-loading__line--draw {
+  stroke: #111;
+  stroke-width: 1.85;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: material-loading-draw 2.4s linear infinite;
+}
+
+.material-loading__pen {
+  fill: #111;
+  stroke: #fff;
+  stroke-width: 1.25;
+}
+
+@keyframes material-loading-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .material-loading__line--draw {
+    animation: none;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
   }
 }
