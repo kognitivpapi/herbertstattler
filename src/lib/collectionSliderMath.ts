@@ -1,6 +1,43 @@
 /** Rabobank CollectionSlider spacing constant (Xe) */
 const SPACING = 30
 export const MOBILE_BREAKPOINT = 768
+export const TABLET_MAX_BREAKPOINT = 1024
+export const MOBILE_ITEM_GAP = 16
+
+export const MOBILE_CAROUSEL_SPRING = {
+  type: 'spring' as const,
+  stiffness: 380,
+  damping: 36,
+  mass: 0.8,
+}
+
+export function getMobileItemStep(itemWidth: number): number {
+  return itemWidth + MOBILE_ITEM_GAP
+}
+
+export interface MobileSliderItemLayout {
+  x: number
+  scale: number
+  opacity: number
+  zIndex: number
+}
+
+export function getMobileSliderItemLayout(
+  index: number,
+  activeIndex: number,
+  itemStep: number,
+  dragOffset = 0,
+): MobileSliderItemLayout {
+  const distance = index - activeIndex
+  const isActive = index === activeIndex
+
+  return {
+    x: distance * itemStep + dragOffset,
+    scale: isActive ? 1 : 0.76,
+    opacity: Math.abs(distance) > 3 ? 0 : isActive ? 1 : 0.42,
+    zIndex: 100 - Math.abs(distance) + (isActive ? 50 : 0),
+  }
+}
 
 function se(
   spread: number,
@@ -28,11 +65,25 @@ export function getSliderItemTransform(
   viewportHeight: number,
 ): SliderItemTransform {
   const isMobile = viewportWidth < MOBILE_BREAKPOINT
+  const isTablet =
+    !isMobile && viewportWidth <= TABLET_MAX_BREAKPOINT
   const isLeftOfActive = index < activeIndex
-  const yMultiplier = isMobile ? 0.15 : viewportHeight / viewportWidth
-  const spread = isMobile ? (isLeftOfActive ? 0.42 : 0.12) : 0.27
+  const yMultiplier = isTablet
+    ? 0.32
+    : isMobile
+      ? 0.15
+      : viewportHeight / viewportWidth
+  const spread = isTablet
+    ? isLeftOfActive
+      ? 0.16
+      : 0.07
+    : isMobile
+      ? isLeftOfActive
+        ? 0.42
+        : 0.12
+      : 0.27
   const distance = index - activeIndex
-  const inactiveScale = isMobile ? 0.84 : 0.75
+  const inactiveScale = isTablet ? 0.82 : isMobile ? 0.84 : 0.75
 
   return {
     x: se(spread, distance, (value) => value, 1, viewportWidth),
