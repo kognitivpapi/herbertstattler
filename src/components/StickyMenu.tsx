@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion, type Transition } from 'framer-motion'
+import { portfolioData } from '../data/portfolio'
 import { HOME_HEADER_REVEAL_DURATION_MS } from '../lib/homeIntro'
 import { getNavContextLabel } from '../lib/navContextLabel'
 import { ArrowIcon, CloseIcon, MenuIcon } from './icons'
 
-const menuItems = [
-  { label: 'Work', to: '/' },
+const otherMenuItems = [
   { label: 'Exhibitions', to: '/exhibitions' },
   { label: 'Material', to: '/material' },
   { label: 'About', to: '/about' },
@@ -71,8 +71,6 @@ function TitleReveal({
 }
 
 interface StickyMenuProps {
-  /** Work menu item on `/` — e.g. open Discover. */
-  onNavigate?: () => void
   /** Reset landing page when already on `/` (close overlays, etc.). */
   onHomeReset?: () => void
   /** Fade/slide in during the one-time landing intro. */
@@ -82,7 +80,6 @@ interface StickyMenuProps {
 }
 
 export function StickyMenu({
-  onNavigate,
   onHomeReset,
   introReveal = false,
   contextLabel: contextLabelOverride,
@@ -91,12 +88,18 @@ export function StickyMenu({
   const location = useLocation()
   const { workId } = useParams<{ workId: string }>()
   const [open, setOpen] = useState(false)
+  const [workMenuOpen, setWorkMenuOpen] = useState(false)
 
   const contextLabel =
     contextLabelOverride ?? getNavContextLabel(location.pathname, workId)
 
-  const goToLanding = () => {
+  const closeMenu = () => {
     setOpen(false)
+    setWorkMenuOpen(false)
+  }
+
+  const goToLanding = () => {
+    closeMenu()
     if (location.pathname === '/') {
       onHomeReset?.()
       return
@@ -105,12 +108,22 @@ export function StickyMenu({
   }
 
   const handleMenuItem = (to: string) => {
-    setOpen(false)
-    if (to === '/') {
-      onNavigate?.()
-      return
-    }
+    closeMenu()
     navigate(to)
+  }
+
+  const handleWorkSelect = (id: string, index: number) => {
+    closeMenu()
+    navigate(`/work/${id}`, {
+      state: { fromMenu: true, discoverIndex: index },
+    })
+  }
+
+  const toggleMenu = () => {
+    setOpen((value) => {
+      if (value) setWorkMenuOpen(false)
+      return !value
+    })
   }
 
   return (
@@ -136,7 +149,7 @@ export function StickyMenu({
             type="button"
             aria-label="Menu"
             aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
+            onClick={toggleMenu}
             className="sticky-menu__toggle"
           >
             <span className={open ? 'hidden' : ''}>Menu</span>
@@ -151,18 +164,59 @@ export function StickyMenu({
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              className="sticky-menu-dropdown"
+              className={`sticky-menu-dropdown${workMenuOpen ? ' sticky-menu-dropdown--work-open' : ''}`}
             >
-              <ul>
-                {menuItems.map(({ label, to }) => (
-                  <li key={label}>
-                    <button type="button" onClick={() => handleMenuItem(to)}>
-                      {label}
-                      <ArrowIcon />
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <div className="sticky-menu-dropdown__viewport">
+                <div className="sticky-menu-dropdown__panel">
+                  <ul>
+                    <li>
+                      <button
+                        type="button"
+                        aria-expanded={workMenuOpen}
+                        onClick={() => setWorkMenuOpen(true)}
+                      >
+                        Work
+                        <ArrowIcon />
+                      </button>
+                    </li>
+                    {otherMenuItems.map(({ label, to }) => (
+                      <li key={label}>
+                        <button type="button" onClick={() => handleMenuItem(to)}>
+                          {label}
+                          <ArrowIcon />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="sticky-menu-dropdown__panel sticky-menu-dropdown__panel--works">
+                  <button
+                    type="button"
+                    className="sticky-menu-dropdown__back"
+                    onClick={() => setWorkMenuOpen(false)}
+                  >
+                    <ArrowIcon className="sticky-menu-dropdown__back-icon" />
+                    Work
+                  </button>
+                  <ul className="sticky-menu-dropdown__work-list">
+                    {portfolioData.map((item, index) => (
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          className={`sticky-menu-dropdown__work-item${
+                            workId === item.id ? ' sticky-menu-dropdown__work-item--active' : ''
+                          }`}
+                          onClick={() => handleWorkSelect(item.id, index)}
+                        >
+                          <span className="sticky-menu-dropdown__work-title">{item.title}</span>
+                          <span className="sticky-menu-dropdown__work-year">{item.year}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
