@@ -145,7 +145,7 @@ function CarouselRing({
   })
 
   return (
-    <group ref={group} position={[0, isMobile ? -0.25 : -0.4, 0]}>
+    <group ref={group} position={[0, isMobile ? -0.3 : -0.5, 0]}>
       {CAROUSEL_ITEMS.map((entry, i) => (
         <CarouselItem
           key={entry.id}
