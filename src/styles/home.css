@@ -602,16 +602,31 @@
     align-items: center;
   }
 
-  .home-logo {
+  .home-logo,
+  .home-middle {
     width: min(90%, 700px);
+    margin: 0 var(--size-16);
+    justify-self: center;
   }
 
   .home-middle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .home-middle__left {
     width: 100%;
+  }
+
+  .home-middle .discover-btn {
+    margin-left: 0;
   }
 
   .home-tagline {
     font-size: 15px;
+    max-width: none;
+    margin: 0;
   }
 
   .sticky-menu {
