@@ -7,7 +7,11 @@ import {
 } from 'framer-motion'
 import { portfolioData } from '../data/portfolio'
 import type { PortfolioItem } from '../data/portfolio'
-import { getSliderItemTransform } from '../lib/collectionSliderMath'
+import {
+  getSliderItemTransform,
+  getSwipeThresholds,
+  MOBILE_BREAKPOINT,
+} from '../lib/collectionSliderMath'
 import { DiscoverWorkImage } from './DiscoverWorkImage'
 import { ArrowIcon } from './icons'
 import '../styles/discover.css'
@@ -29,7 +33,11 @@ function useViewportSize() {
     }
     onResize()
     window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
+    window.visualViewport?.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      window.visualViewport?.removeEventListener('resize', onResize)
+    }
   }, [])
 
   return size
@@ -41,6 +49,7 @@ function SliderItem({
   activeIndex,
   viewportWidth,
   viewportHeight,
+  isMobile,
   onSelect,
   onOpen,
 }: {
@@ -49,6 +58,7 @@ function SliderItem({
   activeIndex: number
   viewportWidth: number
   viewportHeight: number
+  isMobile: boolean
   onSelect: (index: number) => void
   onOpen: (index: number) => void
 }) {
@@ -59,9 +69,14 @@ function SliderItem({
     viewportWidth,
     viewportHeight,
   )
-  const x = useSpring(transform.x, { stiffness: 260, damping: 32 })
-  const y = useSpring(transform.y, { stiffness: 260, damping: 32 })
-  const scale = useSpring(transform.scale, { stiffness: 260, damping: 32 })
+  const spring = isMobile
+    ? { stiffness: 340, damping: 38, mass: 0.75 }
+    : { stiffness: 260, damping: 32 }
+  const x = useSpring(transform.x, spring)
+  const y = useSpring(transform.y, spring)
+  const scale = useSpring(transform.scale, spring)
+  const { offset: swipeOffset, velocity: swipeVelocity } =
+    getSwipeThresholds(viewportWidth)
 
   useEffect(() => {
     x.set(transform.x)
@@ -83,15 +98,27 @@ function SliderItem({
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       drag={isActive ? 'x' : false}
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.12}
+      dragElastic={isMobile ? 0.24 : 0.12}
+      dragMomentum={false}
+      whileTap={
+        isActive && !isMobile ? { scale: transform.scale * 0.97 } : undefined
+      }
       onDragEnd={(_, info) => {
         if (!isActive) return
-        if (info.offset.x > 50 || info.velocity.x > 500) onSelect(activeIndex - 1)
-        if (info.offset.x < -50 || info.velocity.x < -500) onSelect(activeIndex + 1)
+        if (info.offset.x > swipeOffset || info.velocity.x > swipeVelocity) {
+          onSelect(activeIndex - 1)
+          return
+        }
+        if (info.offset.x < -swipeOffset || info.velocity.x < -swipeVelocity) {
+          onSelect(activeIndex + 1)
+        }
       }}
-      onClick={() => {
-        if (isActive) onOpen(index)
-        else onSelect(index)
+      onTap={() => {
+        if (isActive) {
+          if (!isMobile) onOpen(index)
+          return
+        }
+        onSelect(index)
       }}
     >
       <DiscoverWorkImage src={item.imageUrl} alt={item.title} />
@@ -125,6 +152,30 @@ function WorkInfo({
   )
 }
 
+function NavButton({
+  direction,
+  disabled,
+  onClick,
+  className = '',
+}: {
+  direction: 'prev' | 'next'
+  disabled: boolean
+  onClick: () => void
+  className?: string
+}) {
+  return (
+    <button
+      type="button"
+      className={`discover-page__nav-btn ${className}`.trim()}
+      aria-label={direction === 'prev' ? 'Previous work' : 'Next work'}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      <ArrowIcon className={direction === 'prev' ? 'rotate-180' : undefined} />
+    </button>
+  )
+}
+
 export function CollectionOverlay({
   onClose,
   initialActiveIndex = 0,
@@ -132,6 +183,7 @@ export function CollectionOverlay({
   const navigate = useNavigate()
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex)
   const { width, height } = useViewportSize()
+  const isMobile = width < MOBILE_BREAKPOINT
   const activeItem = portfolioData[activeIndex]
 
   useEffect(() => {
@@ -166,7 +218,7 @@ export function CollectionOverlay({
 
   return (
     <motion.div
-      className="discover-page"
+      className={`discover-page${isMobile ? ' discover-page--mobile' : ''}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -192,40 +244,66 @@ export function CollectionOverlay({
             activeIndex={activeIndex}
             viewportWidth={width}
             viewportHeight={height}
+            isMobile={isMobile}
             onSelect={goTo}
             onOpen={openWork}
           />
         ))}
       </div>
 
-      {activeItem && (
-        <div className="discover-page__info">
-          <AnimatePresence mode="wait">
-            <WorkInfo item={activeItem} onOpen={() => openWork(activeIndex)} />
-          </AnimatePresence>
+      <div className="discover-page__footer">
+        {isMobile && (
+          <div className="discover-page__mobile-bar" aria-label="Collection navigation">
+            <NavButton
+              direction="prev"
+              disabled={activeIndex === 0}
+              onClick={() => goTo(activeIndex - 1)}
+              className="discover-page__nav-btn--mobile"
+            />
+            <span className="discover-page__counter">
+              {activeIndex + 1} / {portfolioData.length}
+            </span>
+            <NavButton
+              direction="next"
+              disabled={activeIndex === portfolioData.length - 1}
+              onClick={() => goTo(activeIndex + 1)}
+              className="discover-page__nav-btn--mobile"
+            />
+          </div>
+        )}
+
+        {activeItem && (
+          <div className="discover-page__info">
+            <AnimatePresence mode="wait">
+              <WorkInfo item={activeItem} onOpen={() => openWork(activeIndex)} />
+            </AnimatePresence>
+            {isMobile && (
+              <button
+                type="button"
+                className="discover-page__open-work"
+                onClick={() => openWork(activeIndex)}
+              >
+                View work
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+      {!isMobile && (
+        <div className="discover-page__controls">
+          <NavButton
+            direction="prev"
+            disabled={activeIndex === 0}
+            onClick={() => goTo(activeIndex - 1)}
+          />
+          <NavButton
+            direction="next"
+            disabled={activeIndex === portfolioData.length - 1}
+            onClick={() => goTo(activeIndex + 1)}
+          />
         </div>
       )}
-
-      <div className="discover-page__controls">
-        <button
-          type="button"
-          className="discover-page__nav-btn"
-          aria-label="Previous work"
-          disabled={activeIndex === 0}
-          onClick={() => goTo(activeIndex - 1)}
-        >
-          <ArrowIcon className="rotate-180" />
-        </button>
-        <button
-          type="button"
-          className="discover-page__nav-btn"
-          aria-label="Next work"
-          disabled={activeIndex === portfolioData.length - 1}
-          onClick={() => goTo(activeIndex + 1)}
-        >
-          <ArrowIcon />
-        </button>
-      </div>
     </motion.div>
   )
 }
