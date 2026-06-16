@@ -12,25 +12,18 @@
   width: 100%;
 }
 
-/* Full-bleed portrait hero — image tucks under white band for a seamless blend */
-.about-page__hero {
-  --about-white-band: calc(var(--menu-height) + 128px);
-  --about-image-tuck: 36px;
-  --about-blend-depth: 56px;
-  position: relative;
+.about-page__content {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter) var(--page-bottom-padding);
+}
+
+.about-page__portrait {
+  margin: 0 0 var(--page-section-gap);
   width: 100vw;
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding-top: var(--about-white-band);
-  overflow: hidden;
-  background: #fff;
-}
-
-.about-page__portrait {
-  position: relative;
-  margin: calc(-1 * var(--about-image-tuck)) 0 0;
-  width: 100%;
 }
 
 .about-page__portrait img {
@@ -39,96 +32,24 @@
   height: auto;
 }
 
-/* Full-width soft fade — blur fades out vertically before the face */
-.about-page__hero-scrim {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  height: calc(var(--about-white-band) + var(--about-blend-depth));
-  pointer-events: none;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  background: linear-gradient(
-    to bottom,
-    #fff 0%,
-    #fff 68%,
-    rgb(255 255 255 / 0.96) 76%,
-    rgb(255 255 255 / 0.86) 83%,
-    rgb(255 255 255 / 0.68) 89%,
-    rgb(255 255 255 / 0.42) 94%,
-    rgb(255 255 255 / 0.15) 98%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 66%,
-    rgb(0 0 0 / 0.9) 74%,
-    rgb(0 0 0 / 0.55) 82%,
-    rgb(0 0 0 / 0.2) 90%,
-    transparent 96%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 66%,
-    rgb(0 0 0 / 0.9) 74%,
-    rgb(0 0 0 / 0.55) 82%,
-    rgb(0 0 0 / 0.2) 90%,
-    transparent 96%
-  );
-}
-
 .about-page__portrait-credit {
-  position: absolute;
-  right: 24px;
-  bottom: 12px;
-  margin: 0;
+  margin: 8px var(--page-gutter) 0;
   font-size: 10px;
   font-weight: 300;
   line-height: 1.3;
-  color: rgba(255, 255, 255, 0.85);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
-  z-index: 2;
-}
-
-.about-page__content {
-  max-width: var(--page-max-width);
-  margin: 0 auto;
-  padding: 48px var(--page-gutter) var(--page-bottom-padding);
-}
-
-.about-page__header {
-  max-width: var(--page-content-width);
-  margin: 0 0 40px var(--page-indent);
-}
-
-.about-page__title {
-  margin: 0;
-  font-size: clamp(22px, 4.6vw, 56px);
-  font-weight: 500;
-  line-height: 1.18;
-  letter-spacing: 1.3px;
-  color: var(--color-header);
-}
-
-.about-page__intro {
-  margin: 1em 0 0;
-  max-width: 52ch;
-  font-size: clamp(12px, 1.2vw, 15px);
-  line-height: 1.534;
-  color: #000;
+  text-align: right;
+  color: var(--color-gray-900-30);
 }
 
 .about-page__biography {
   margin: 0 0 var(--page-section-gap) var(--page-indent);
   max-width: var(--page-content-width);
+  scroll-margin-top: calc(var(--menu-height) + 24px);
 }
 
 .about-page__section {
   margin-bottom: var(--page-section-gap);
+  scroll-margin-top: calc(var(--menu-height) + 24px);
 }
 
 .about-page__section-title {
@@ -170,34 +91,7 @@
   border-bottom: none;
 }
 
-@media (max-width: 1199px) {
-  .about-page__hero {
-    --about-white-band: calc(var(--menu-height) + 112px);
-  }
-}
-
 @media (max-width: 900px) {
-  .about-page__hero {
-    --about-white-band: calc(var(--menu-height) + 96px);
-    --about-image-tuck: 28px;
-    --about-blend-depth: 48px;
-  }
-
-  .about-page__hero-scrim {
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-  }
-
-  .about-page__content {
-    padding-top: 32px;
-  }
-
-  .about-page__portrait-credit {
-    right: 16px;
-    bottom: 10px;
-  }
-
-  .about-page__header,
   .about-page__biography,
   .about-page__section-title,
   .about-list {
@@ -206,22 +100,13 @@
     max-width: 100%;
   }
 
-  .about-page__intro {
-    max-width: none;
+  .about-page__portrait-credit {
+    margin-right: var(--page-gutter);
+    margin-left: var(--page-gutter);
   }
 }
 
 @media (max-width: 767px) {
-  .about-page__hero {
-    --about-white-band: calc(var(--menu-height) + 80px);
-    --about-image-tuck: 24px;
-    --about-blend-depth: 40px;
-  }
-
-  .about-page__title {
-    letter-spacing: 0.6px;
-  }
-
   .about-list__item {
     font-size: 13px;
   }
