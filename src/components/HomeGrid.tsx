@@ -1,36 +1,67 @@
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { DiscoverButton, GridLink, HerbertLogo } from './GridLink'
 
 interface HomeGridProps {
+  visible: boolean
   onDiscover: () => void
 }
 
-export function HomeGrid({ onDiscover }: HomeGridProps) {
+export function HomeGrid({ visible, onDiscover }: HomeGridProps) {
   const navigate = useNavigate()
+
+  const ease = [0.22, 1, 0.36, 1] as const
+  const stagger = 0.13
+  const revealDuration = 0.6
+  const base = {
+    hidden: { opacity: 0, y: 8 },
+    show: { opacity: 1, y: 0 },
+  } as const
+
+  const reveal = (index: number) => ({
+    initial: false as const,
+    animate: visible ? ('show' as const) : ('hidden' as const),
+    variants: base,
+    transition: { duration: revealDuration, delay: 0.2 + stagger * index, ease },
+  })
 
   return (
     <div className="home-shell">
       <div className="home-grid">
         <div className="home-content">
-          <div className="home-logo">
+          <motion.div className="home-logo" {...reveal(0)}>
             <HerbertLogo />
-          </div>
+          </motion.div>
 
           <GridLink
             label="Exhibitions"
             variant="stories"
             onClick={() => navigate('/exhibitions')}
+            {...reveal(1)}
           />
-          <GridLink label="Contact" variant="exhibition" onClick={() => navigate('/contact')} />
-          <GridLink label="Material" variant="artlab" onClick={() => navigate('/material')} />
-          <GridLink label="About" variant="about" onClick={() => navigate('/about')} />
+          <GridLink
+            label="Contact"
+            variant="exhibition"
+            onClick={() => navigate('/contact')}
+            {...reveal(2)}
+          />
+          <GridLink
+            label="Material"
+            variant="artlab"
+            onClick={() => navigate('/material')}
+            {...reveal(3)}
+          />
+          <GridLink
+            label="About"
+            variant="about"
+            onClick={() => navigate('/about')}
+            {...reveal(4)}
+          />
 
-          <div className="home-middle">
-            <p className="home-tagline">
-              Drawings dealing with everyday topics
-            </p>
+          <motion.div className="home-middle" {...reveal(5)}>
+            <p className="home-tagline">Drawings dealing with everyday topics</p>
             <DiscoverButton onClick={onDiscover} />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
