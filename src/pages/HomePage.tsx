@@ -105,7 +105,11 @@ export function HomePage() {
     <div className="home-page">
       <div className="home-page__grid">
         <HomeCarousel introProgress={introProgress} allowRotation={showHomeText} />
-        <HomeGrid visible={showHomeText} onDiscover={() => openCollection(0)} />
+        <HomeGrid
+          visible={showHomeText}
+          introProgress={introProgress}
+          onDiscover={() => openCollection(0)}
+        />
       </div>
       {showHeader && (
         <StickyMenu
