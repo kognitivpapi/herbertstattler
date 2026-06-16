@@ -414,12 +414,8 @@
     margin-top: -12px;
   }
 
-  .home-logo {
+  .home-copy {
     width: min(90%, 700px);
-  }
-
-  .home-middle {
-    width: 100%;
   }
 
   .home-tagline {
