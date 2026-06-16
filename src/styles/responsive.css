@@ -96,12 +96,16 @@ canvas {
 }
 
 @media (max-height: 580px) and (max-width: 767px) {
-  .discover-page__wrapper {
-    --base-size: min(36vw, 128px);
-    padding-bottom: min(50vh, 280px);
+  .discover-page--mobile .discover-page__title {
+    padding-bottom: 4px;
+  }
+
+  .discover-page--mobile .discover-page__mobile-bar {
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .discover-page__info {
-    max-height: min(34vh, 220px);
+    padding-top: 4px;
   }
 }
