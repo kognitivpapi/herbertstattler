@@ -60,20 +60,6 @@
   overflow: hidden;
 }
 
-.standard-page__header .work-page__title-name,
-.standard-page__header .work-page__title-year {
-  display: inline;
-  margin-top: 0;
-}
-
-.standard-page__header .work-page__title-year {
-  font-size: clamp(14px, 2.2vw, 32px);
-}
-
-.standard-page__header .work-page__title-year::before {
-  content: ' ';
-}
-
 .standard-page__body {
   margin-top: 3rem;
 }
