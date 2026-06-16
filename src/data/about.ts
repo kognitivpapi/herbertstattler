@@ -20,6 +20,7 @@ export const aboutBiography: string[] = [
 
 export const aboutNav = [
   { id: 'biography', shortLabel: 'Biography' },
+  { id: 'shop', shortLabel: 'Shop' },
   { id: 'residencies', shortLabel: 'Residencies' },
   { id: 'awards', shortLabel: 'Awards' },
   { id: 'lectures', shortLabel: 'Lectures' },
