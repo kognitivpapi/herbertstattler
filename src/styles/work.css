@@ -119,6 +119,35 @@
   margin-top: 2.5rem;
 }
 
+.work-page__shop + .work-page__video,
+.work-page__text + .work-page__video {
+  margin-top: 2rem;
+}
+
+.work-page__video {
+  margin: 2rem 0 0 var(--page-indent);
+  max-width: var(--page-content-width);
+}
+
+.work-page__video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.work-page__video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.work-page__video + .work-page__gallery {
+  margin-top: 2.5rem;
+}
+
 .work-page__gallery {
   margin: 0 0 0 var(--page-indent);
   max-width: var(--page-content-width);
@@ -246,6 +275,7 @@
   .work-page__header,
   .work-page__text,
   .work-page__shop,
+  .work-page__video,
   .work-page__gallery,
   .work-page__footer-note,
   .work-page__back {
