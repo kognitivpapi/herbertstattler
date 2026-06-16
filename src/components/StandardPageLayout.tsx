@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { StickyMenu } from './StickyMenu'
 import '../styles/standardPage.css'
 
@@ -13,21 +12,16 @@ export function StandardPageLayout({
   className,
   heroImage,
   header,
-  onNavigate,
   children,
 }: {
   className?: string
   heroImage?: StandardPageHeroImage
   header: ReactNode
-  onNavigate?: () => void
   children: ReactNode
 }) {
-  const navigate = useNavigate()
-  const handleNavigate = onNavigate ?? (() => navigate('/'))
-
   return (
     <div className={['standard-page', className].filter(Boolean).join(' ')}>
-      <StickyMenu onNavigate={handleNavigate} />
+      <StickyMenu />
       <main className="standard-page__main">
         <div className="standard-page__top">
           {heroImage && (
