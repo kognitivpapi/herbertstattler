@@ -157,7 +157,6 @@ export function HomePage() {
       {showHeader && (
         <StickyMenu
           introReveal={headerIntroReveal}
-          onNavigate={() => openCollection(0)}
           onHomeReset={resetLanding}
           contextLabel={showCollection ? 'Work' : undefined}
         />
