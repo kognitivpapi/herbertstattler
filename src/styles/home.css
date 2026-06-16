@@ -541,15 +541,51 @@
   }
 
   .home-link {
+    display: grid;
+    grid-template-columns: 28px minmax(0, max-content);
+    column-gap: 12px;
     font-size: clamp(16px, 4.5vw, 20px);
-    gap: 12px;
+    width: max-content;
+    max-width: 42vw;
+    height: min-content;
+    white-space: normal;
+    align-items: center;
+  }
+
+  .home-link--stories,
+  .home-link--exhibition {
+    align-self: start;
+  }
+
+  .home-link--about,
+  .home-link--artlab {
+    align-self: end;
+  }
+
+  .home-link--stories .home-link__icon,
+  .home-link--exhibition .home-link__icon {
+    align-self: start;
+  }
+
+  .home-link--about .home-link__icon,
+  .home-link--artlab .home-link__icon {
+    align-self: end;
   }
 
   .home-link__icon,
   .discover-btn__icon {
     width: 28px;
     height: 28px;
-    flex: 0 0 28px;
+    flex: none;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-link__label {
+    grid-column: 2;
+    grid-row: 1;
+    line-height: 28px;
+    align-self: center;
   }
 
   .home-link--stories .home-link__label,
@@ -559,19 +595,11 @@
   }
 
   .home-link--stories {
-    flex-direction: row;
     margin-top: 0;
-    align-items: center;
   }
 
-  .home-link--exhibition,
-  .home-link--about,
-  .home-link--artlab {
+  .discover-btn {
     align-items: center;
-  }
-
-  .home-link__label {
-    line-height: 28px;
   }
 
   .home-logo {
@@ -625,16 +653,14 @@
 }
 
 @media (max-width: 480px) {
-  .home-link--exhibition,
-  .home-link--artlab {
-    max-width: 42vw;
-    white-space: normal;
-    line-height: 1.1;
-  }
-
   .home-link--stories,
   .home-link--about {
     max-width: 38vw;
+  }
+
+  .home-link--exhibition .home-link__label,
+  .home-link--artlab .home-link__label {
+    line-height: 1.15;
   }
 
   .discover-btn {
