@@ -1,4 +1,4 @@
-import { Suspense, useRef, useMemo, useState, useEffect, useSyncExternalStore } from 'react'
+import { Suspense, useRef, useMemo, useState, useSyncExternalStore } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrthographicCamera, PerformanceMonitor, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
@@ -15,7 +15,39 @@ import {
 import { clamp01, getIntroStartPose } from '../lib/homeIntro'
 
 const MOBILE_BREAKPOINT = 768
+const MIN_LAYOUT_WIDTH = 360
 const FADE_DURATION = 1.25
+const RESIZE_SMOOTHING = 7
+
+function getLayoutBlend(width: number): number {
+  return THREE.MathUtils.clamp(
+    (MOBILE_BREAKPOINT - width) / (MOBILE_BREAKPOINT - MIN_LAYOUT_WIDTH),
+    0,
+    1,
+  )
+}
+
+function getCarouselTargets(
+  width: number,
+  pointer: THREE.Vector2,
+  outPosition: THREE.Vector3,
+) {
+  const blend = getLayoutBlend(width)
+  const clampedWidth = Math.min(width, 1800)
+  const desktopZoom = THREE.MathUtils.clamp((50 * clampedWidth) / 1000, 28, 95)
+  const mobileZoom = (40 * clampedWidth) / 1000
+  const zoom = THREE.MathUtils.lerp(desktopZoom, mobileZoom, blend)
+  const ringY = THREE.MathUtils.lerp(-0.5, -0.3, blend)
+  const x = THREE.MathUtils.lerp(0, pointer.x * 0.4, blend)
+  const y = THREE.MathUtils.lerp(4.5, pointer.y * 0.16 + 4.5, blend)
+  outPosition.set(x, y, 9)
+
+  return { zoom, ringY }
+}
+
+function getSmoothFactor(delta: number, smoothing = RESIZE_SMOOTHING): number {
+  return 1 - Math.exp(-smoothing * delta)
+}
 
 function subscribeVisibility(cb: () => void) {
   document.addEventListener('visibilitychange', cb)
@@ -28,22 +60,6 @@ function getVisibility() {
 
 function usePageVisible() {
   return useSyncExternalStore(subscribeVisibility, getVisibility, () => true)
-}
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT,
-  )
-
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => setIsMobile(mq.matches)
-    onChange()
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-
-  return isMobile
 }
 
 function getTextureAspect(texture: THREE.Texture, fallback: number): number {
@@ -135,17 +151,25 @@ function CarouselRing({
   introProgress: number
 }) {
   const group = useRef<THREE.Group>(null)
+  const ringY = useRef(-0.5)
   const imageUrls = useMemo(() => CAROUSEL_ITEMS.map((item) => item.imageUrl), [])
   const textures = useTexture(imageUrls)
-  const isMobile = useIsMobile()
+  const { size } = useThree()
 
   useFrame((_, delta) => {
     if (!group.current || !visible) return
+
+    const blend = getLayoutBlend(size.width)
+    const targetRingY = THREE.MathUtils.lerp(-0.5, -0.3, blend)
+    const smooth = getSmoothFactor(delta)
+    ringY.current = THREE.MathUtils.lerp(ringY.current, targetRingY, smooth)
+    group.current.position.y = ringY.current
+
     if (allowRotation) group.current.rotation.y += delta / 15
   })
 
   return (
-    <group ref={group} position={[0, isMobile ? -0.3 : -0.5, 0]}>
+    <group ref={group} position={[0, ringY.current, 0]}>
       {CAROUSEL_ITEMS.map((entry, i) => (
         <CarouselItem
           key={entry.id}
@@ -164,25 +188,16 @@ function CarouselCamera({ visible }: { visible: boolean }) {
   const { camera, pointer, size } = useThree()
   const targetZoom = useRef(50)
   const targetPos = useRef(new THREE.Vector3(0, 4.5, 9))
-  const isMobile = useIsMobile()
 
   useFrame((_, delta) => {
     if (!visible || !(camera instanceof THREE.OrthographicCamera)) return
 
-    if (isMobile) {
-      targetZoom.current = (40 * Math.min(size.width, 1800)) / 1000
-      targetPos.current.set(pointer.x * 0.4, pointer.y * 0.16 + 4.5, 9)
-    } else {
-      // Keep scaling linear with browser width so the ring shrinks
-      // proportionally when the user narrows the window.
-      // (The previous getCurrentViewport-based approach effectively behaved like sqrt(width).)
-      const zoom = (50 * Math.min(size.width, 1800)) / 1000
-      targetZoom.current = THREE.MathUtils.clamp(zoom, 28, 95)
-      targetPos.current.set(0, 4.5, 9)
-    }
+    const targets = getCarouselTargets(size.width, pointer, targetPos.current)
+    targetZoom.current = targets.zoom
 
-    camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.05)
-    camera.position.lerp(targetPos.current, delta)
+    const smooth = getSmoothFactor(delta)
+    camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, smooth)
+    camera.position.lerp(targetPos.current, smooth)
     camera.updateProjectionMatrix()
     camera.lookAt(0, 0, 0)
   })
