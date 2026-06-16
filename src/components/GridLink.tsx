@@ -1,10 +1,11 @@
+import { motion, type HTMLMotionProps } from 'framer-motion'
 import { ArrowIcon } from './icons'
 
-interface GridLinkProps {
+type GridLinkProps = {
   label: string
   variant: 'stories' | 'exhibition' | 'artlab' | 'about'
   onClick?: () => void
-}
+} & Pick<HTMLMotionProps<'button'>, 'variants' | 'animate' | 'initial' | 'transition'>
 
 const variantClass: Record<GridLinkProps['variant'], string> = {
   stories:
@@ -15,18 +16,19 @@ const variantClass: Record<GridLinkProps['variant'], string> = {
   about: 'home-link home-link--about col-start-1 row-start-5 self-end',
 }
 
-export function GridLink({ label, variant, onClick }: GridLinkProps) {
+export function GridLink({ label, variant, onClick, ...motionProps }: GridLinkProps) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       className={`${variantClass[variant]} group`}
+      {...motionProps}
     >
       <span className="home-link__icon" aria-hidden>
         <ArrowIcon />
       </span>
       <span className="home-link__label">{label}</span>
-    </button>
+    </motion.button>
   )
 }
 
