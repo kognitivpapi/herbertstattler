@@ -30,7 +30,7 @@ export function getIntroStartPose(index: number) {
 
   const x = Math.cos(angle) * radius
   const z = Math.sin(angle) * radius
-  const y = (r3 - 0.5) * 5.5
+  const y = (r3 - 0.5) * 3.2
 
   const yaw = (r1 - 0.5) * 0.45
 
