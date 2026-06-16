@@ -255,21 +255,25 @@ export function CollectionOverlay({
       <div
         className={isMobile ? 'discover-page__mobile-layout' : 'discover-page__wrapper'}
         style={
-          isMobile
-            ? undefined
-            : ({ '--base-size': `${carouselItemSize}px` } as CSSProperties)
+          !isMobile
+            ? ({
+                '--base-size': `${carouselItemSize}px`,
+                '--carousel-item-height': `${Math.round(carouselItemSize * 1.2)}px`,
+              } as CSSProperties)
+            : undefined
         }
       >
-        {isMobile ? (
-          <MobileDiscoverCarousel
-            items={portfolioData}
-            activeIndex={activeIndex}
-            viewportWidth={width}
-            viewportHeight={height}
-            onSelect={goTo}
-          />
-        ) : (
-          portfolioData.map((item, index) => (
+      {isMobile ? (
+        <MobileDiscoverCarousel
+          items={portfolioData}
+          activeIndex={activeIndex}
+          viewportWidth={width}
+          viewportHeight={height}
+          onSelect={goTo}
+        />
+      ) : (
+        <div className="discover-page__stage" aria-label="Collection">
+          {portfolioData.map((item, index) => (
             <SliderItem
               key={item.id}
               item={item}
@@ -281,8 +285,14 @@ export function CollectionOverlay({
               onSelect={goTo}
               onOpen={openWork}
             />
-          ))
-        )}
+          ))}
+          <div className="discover-page__desktop-bar" aria-label="Collection position">
+            <span className="discover-page__counter">
+              {activeIndex + 1} / {portfolioData.length}
+            </span>
+          </div>
+        </div>
+      )}
       </div>
 
       <div className="discover-page__footer">
@@ -331,9 +341,6 @@ export function CollectionOverlay({
             disabled={activeIndex === 0}
             onClick={() => goTo(activeIndex - 1)}
           />
-          <span className="discover-page__counter">
-            {activeIndex + 1} / {portfolioData.length}
-          </span>
           <NavButton
             direction="next"
             disabled={activeIndex === portfolioData.length - 1}
