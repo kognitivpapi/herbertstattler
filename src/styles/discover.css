@@ -519,7 +519,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: calc(var(--discover-back-top) + 28px) 72px
+    padding: calc(var(--discover-back-top) + 28px) 88px
       calc(var(--discover-inset) + min(32vh, 240px));
   }
 
@@ -552,6 +552,12 @@
   .discover-page__footer {
     position: static;
     display: contents;
+  }
+
+  .discover-page__stage {
+    box-sizing: border-box;
+    padding-inline: var(--discover-carousel-gutter);
+    overflow: hidden;
   }
 
   .discover-page:not(.discover-page--tablet) .discover-page__wrapper {
