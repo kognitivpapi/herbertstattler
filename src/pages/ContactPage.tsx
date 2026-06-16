@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { StickyMenu } from '../components/StickyMenu'
 import { InstagramIcon } from '../components/icons'
 import {
@@ -25,7 +24,6 @@ const initialForm: ContactFormState = {
 }
 
 export function ContactPage() {
-  const navigate = useNavigate()
   const [form, setForm] = useState<ContactFormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
 
@@ -49,7 +47,7 @@ export function ContactPage() {
 
   return (
     <div className="contact-page">
-      <StickyMenu onNavigate={() => navigate('/')} />
+      <StickyMenu />
       <main className="contact-page__content">
         <header className="contact-page__header">
           <h1 className="contact-page__title">Contact</h1>
