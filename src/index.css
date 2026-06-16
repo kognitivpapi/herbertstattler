@@ -6,10 +6,10 @@
 
 :root {
   --color-white: #fff;
-  --color-gray-200: #ebebeb;
-  --color-gray-900: #222;
-  --color-gray-900-30: rgba(34, 34, 34, 0.3);
-  --color-header: #0d2c84;
+  --color-gray-200: #fff;
+  --color-gray-900: #000;
+  --color-gray-900-30: rgba(0, 0, 0, 0.3);
+  --color-header: #000;
   --menu-width: 392px;
   --menu-height: 66px;
   --grid-max-width: 1800px;
@@ -40,9 +40,13 @@ body,
 
 body {
   font-family: var(--font-sans);
-  background: #000;
-  color: var(--color-gray-900);
+  background: #fff;
+  color: #000;
   -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
 }
 
 body:has(.work-page),
