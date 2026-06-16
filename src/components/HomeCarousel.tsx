@@ -229,7 +229,7 @@ export function HomeCarousel({
         dpr={dpr}
         gl={{ antialias: true, alpha: false }}
         onCreated={({ gl }) => {
-          gl.setClearColor(0x000000, 1)
+          gl.setClearColor(0xffffff, 1)
         }}
       >
         <PerformanceMonitor
