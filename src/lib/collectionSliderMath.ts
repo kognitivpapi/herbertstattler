@@ -21,7 +21,7 @@ export function getMobileCarouselItemSize(
   viewportWidth: number,
   viewportHeight: number,
 ): number {
-  const inset = 40
+  const inset = 32
   const availableWidth = Math.max(0, viewportWidth - inset * 2)
 
   const titleChrome = 108
@@ -34,7 +34,7 @@ export function getMobileCarouselItemSize(
     viewportHeight - titleChrome - barChrome - infoChrome - verticalGap,
   )
   const widthFromHeight = maxItemHeight / MOBILE_ITEM_ASPECT
-  const widthFromViewport = availableWidth * 0.58
+  const widthFromViewport = availableWidth * 0.64
   const raw = Math.min(widthFromViewport, widthFromHeight, 172)
 
   return Math.round(Math.max(104, raw))
@@ -61,8 +61,8 @@ export function getCarouselItemSize(
   }
 
   const isTablet = isTabletViewport(viewportWidth)
-  const horizontalInset = isTablet ? 160 : 156
-  const widthFactor = isTablet ? 0.18 : 0.225
+  const horizontalInset = isTablet ? 112 : 96
+  const widthFactor = isTablet ? 0.2 : 0.26
   const maxFromWidth = (viewportWidth - horizontalInset) * widthFactor
 
   const titleChrome = isTablet ? 108 : 96
