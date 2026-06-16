@@ -165,6 +165,16 @@
   .material-chapter--paper {
     --material-chapter-min-height: 90vh;
   }
+
+  .material-card {
+    max-width: min(var(--material-card-width), calc(100vw - 2 * var(--page-gutter)));
+  }
+}
+
+@media (max-width: 1024px) {
+  .material-chapter__backdrop {
+    background-attachment: scroll;
+  }
 }
 
 @media (max-width: 900px) {
@@ -198,11 +208,11 @@
 
   .material-chapter--ink,
   .material-chapter--paper {
-    --material-chapter-min-height: 90vh;
+    --material-chapter-min-height: 85vh;
   }
 
-  .material-page__nav {
-    gap: 8px 16px;
+  .material-landing {
+    padding-bottom: 28px;
   }
 }
 
