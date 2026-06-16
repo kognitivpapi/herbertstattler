@@ -490,31 +490,32 @@
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  .discover-page__wrapper {
-    --base-size: min(19vw, 196px);
+  .discover-page--tablet .discover-page__wrapper {
     align-items: center;
-    padding-top: calc(var(--discover-back-top) + 48px);
-    padding-bottom: calc(var(--discover-inset) + 220px);
+    justify-content: center;
+    box-sizing: border-box;
+    padding: calc(var(--discover-back-top) + 28px) 72px
+      calc(var(--discover-inset) + min(32vh, 240px));
   }
 
-  .discover-page__item {
-    transform: skewY(5deg);
+  .discover-page--tablet .discover-page__item {
+    transform: skewY(4deg);
   }
 
-  .discover-page__title {
+  .discover-page--tablet .discover-page__title {
     max-width: 12ch;
     font-size: clamp(22px, 3.2vw, 32px);
   }
 
-  .discover-page__info {
-    max-width: min(32ch, 38vw);
+  .discover-page--tablet .discover-page__info {
+    max-width: min(30ch, 36vw);
   }
 
-  .discover-page__info-description {
+  .discover-page--tablet .discover-page__info-description {
     font-size: 14px;
-    -webkit-line-clamp: 4;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
     overflow: hidden;
   }
 }
@@ -532,7 +533,7 @@
     display: contents;
   }
 
-  .discover-page__wrapper {
+  .discover-page:not(.discover-page--tablet) .discover-page__wrapper {
     --base-size: 214px;
   }
 
@@ -546,13 +547,13 @@
 }
 
 @media (min-width: 1024px) {
-  .discover-page__wrapper {
+  .discover-page:not(.discover-page--tablet) .discover-page__wrapper {
     --base-size: 278px;
   }
 }
 
 @media (min-width: 1200px) {
-  .discover-page__wrapper {
+  .discover-page:not(.discover-page--tablet) .discover-page__wrapper {
     --base-size: 318px;
   }
 }
