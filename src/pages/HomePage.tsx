@@ -10,6 +10,7 @@ import {
   HOME_HEADER_REVEAL_AT,
   HOME_INTRO_DURATION_MS,
   HOME_INTRO_STORAGE_KEY,
+  HOME_TEXT_REVEAL_AT,
   clamp01,
   easeOutCubic,
 } from '../lib/homeIntro'
@@ -88,8 +89,10 @@ export function HomePage() {
         setShowHeader(true)
         setHeaderIntroReveal(true)
       }
-      if (t >= 1) {
+      if (eased >= HOME_TEXT_REVEAL_AT) {
         setShowHomeText(true)
+      }
+      if (t >= 1) {
         sessionStorage.setItem(HOME_INTRO_STORAGE_KEY, '1')
         return
       }

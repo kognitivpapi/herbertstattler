@@ -50,16 +50,25 @@ a {
 }
 
 /* Sticky menu base styling (shared across pages). */
-.sticky-menu,
-.sticky-menu-dropdown {
+.sticky-menu-wrap .sticky-menu,
+.sticky-menu-wrap .sticky-menu-dropdown {
   background: #000;
   color: #fff;
 }
 
-.sticky-menu__title a,
-.sticky-menu__home-link,
-.sticky-menu__toggle,
-.sticky-menu-dropdown button {
+.sticky-menu-wrap .sticky-menu__title a,
+.sticky-menu-wrap .sticky-menu__home-link,
+.sticky-menu-wrap .sticky-menu__toggle,
+.sticky-menu-wrap .sticky-menu-dropdown button {
+  color: #fff;
+}
+
+.sticky-menu-wrap .sticky-menu__sep {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.sticky-menu-wrap .sticky-menu svg,
+.sticky-menu-wrap .sticky-menu-dropdown svg {
   color: #fff;
 }
 
