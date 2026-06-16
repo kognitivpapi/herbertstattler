@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Transition } from 'framer-motion'
+import { HOME_HEADER_REVEAL_DURATION_MS } from '../lib/homeIntro'
 import { ArrowIcon, CloseIcon, MenuIcon } from './icons'
 
 const menuItems = [
@@ -11,14 +12,21 @@ const menuItems = [
   { label: 'Contact', to: '/contact' },
 ] as const
 
+const introRevealTransition: Transition = {
+  duration: HOME_HEADER_REVEAL_DURATION_MS / 1000,
+  ease: [0.22, 1, 0.36, 1],
+}
+
 interface StickyMenuProps {
   /** Work menu item on `/` — e.g. open Discover. */
   onNavigate?: () => void
   /** Reset landing page when already on `/` (close overlays, etc.). */
   onHomeReset?: () => void
+  /** Fade/slide in during the one-time landing intro. */
+  introReveal?: boolean
 }
 
-export function StickyMenu({ onNavigate, onHomeReset }: StickyMenuProps) {
+export function StickyMenu({ onNavigate, onHomeReset, introReveal = false }: StickyMenuProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [open, setOpen] = useState(false)
@@ -42,7 +50,12 @@ export function StickyMenu({ onNavigate, onHomeReset }: StickyMenuProps) {
   }
 
   return (
-    <header className="sticky-menu-wrap">
+    <motion.header
+      className="sticky-menu-wrap"
+      initial={introReveal ? { opacity: 0, y: -14 } : false}
+      animate={{ opacity: 1, y: 0 }}
+      transition={introReveal ? introRevealTransition : { duration: 0 }}
+    >
       <div className="sticky-menu-shadow" aria-hidden />
       <div className="sticky-menu-inner">
         <nav className="sticky-menu">
@@ -90,6 +103,6 @@ export function StickyMenu({ onNavigate, onHomeReset }: StickyMenuProps) {
           )}
         </AnimatePresence>
       </div>
-    </header>
+    </motion.header>
   )
 }
