@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { StickyMenu } from '../components/StickyMenu'
 import { featuredExhibitions, groupExhibitions, soloExhibitions, type Exhibition } from '../data/exhibitions'
 import '../styles/home.css'
@@ -68,11 +67,9 @@ function ExhibitionListItem({ exhibition }: { exhibition: Exhibition }) {
 }
 
 export function ExhibitionsPage() {
-  const navigate = useNavigate()
-
   return (
     <div className="exhibitions-page">
-      <StickyMenu onNavigate={() => navigate('/')} />
+      <StickyMenu />
       <main className="exhibitions-page__content">
         <header className="exhibitions-page__header">
           <h1 className="exhibitions-page__title">Exhibitions</h1>
