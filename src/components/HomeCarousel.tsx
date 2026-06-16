@@ -34,8 +34,8 @@ function getCarouselTargets(
 ) {
   const blend = getLayoutBlend(width)
   const clampedWidth = Math.min(width, 1800)
-  const desktopZoom = THREE.MathUtils.clamp((54 * clampedWidth) / 1000, 30, 104)
-  const mobileZoom = (44 * clampedWidth) / 1000
+  const desktopZoom = THREE.MathUtils.clamp((50 * clampedWidth) / 1000, 28, 95)
+  const mobileZoom = (40 * clampedWidth) / 1000
   const zoom = THREE.MathUtils.lerp(desktopZoom, mobileZoom, blend)
   const ringY = THREE.MathUtils.lerp(-0.5, -0.3, blend)
   const x = THREE.MathUtils.lerp(0, pointer.x * 0.4, blend)
