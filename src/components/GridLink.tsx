@@ -1,4 +1,4 @@
-import { motion, type HTMLMotionProps } from 'framer-motion'
+import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion'
 import { ArrowIcon } from './icons'
 
 type GridLinkProps = {
@@ -75,5 +75,74 @@ export function HerbertLogo() {
         STATTLER
       </text>
     </svg>
+  )
+}
+
+function splitChars(text: string) {
+  return Array.from(text)
+}
+
+export function HerbertLogoReveal({ active }: { active: boolean }) {
+  const reducedMotion = useReducedMotion()
+
+  if (reducedMotion) {
+    return <HerbertLogo />
+  }
+
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.022,
+        delayChildren: 0.04,
+      },
+    },
+  } as const
+
+  const char = {
+    hidden: { opacity: 0, x: -6, filter: 'blur(6px)' },
+    show: { opacity: 1, x: 0, filter: 'blur(0px)' },
+  } as const
+
+  const herbert = splitChars('HERBERT')
+  const stattler = splitChars('STATTLER')
+
+  return (
+    <div className="home-wordmark" aria-hidden>
+      <motion.div
+        className="home-wordmark__line home-wordmark__line--top"
+        variants={container}
+        initial={false}
+        animate={active ? 'show' : 'hidden'}
+      >
+        {herbert.map((c, i) => (
+          <motion.span
+            key={`h-${i}-${c}`}
+            className="home-wordmark__char"
+            variants={char}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {c}
+          </motion.span>
+        ))}
+      </motion.div>
+      <motion.div
+        className="home-wordmark__line home-wordmark__line--bottom"
+        variants={container}
+        initial={false}
+        animate={active ? 'show' : 'hidden'}
+      >
+        {stattler.map((c, i) => (
+          <motion.span
+            key={`s-${i}-${c}`}
+            className="home-wordmark__char"
+            variants={char}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {c}
+          </motion.span>
+        ))}
+      </motion.div>
+    </div>
   )
 }
