@@ -1,8 +1,7 @@
-/** Rabobank CollectionSlider spacing constant (Xe) */
-const SPACING = 30
 export const MOBILE_BREAKPOINT = 768
 export const TABLET_MAX_BREAKPOINT = 1024
 export const MOBILE_ITEM_GAP = 16
+export const DESKTOP_ITEM_GAP = 30
 
 export const MOBILE_CAROUSEL_SPRING = {
   type: 'spring' as const,
@@ -71,9 +70,8 @@ export function getCarouselItemSize(
     ? Math.min(viewportHeight * (viewportHeight < 860 ? 0.26 : 0.32), 240)
     : Math.min(viewportHeight * 0.24, 220)
   const verticalInset = isTablet ? 72 : 56
-  const skewMargin = isTablet ? 1.28 : 1.22
   const maxFromHeight =
-    (viewportHeight - titleChrome - infoChrome - verticalInset) / skewMargin
+    (viewportHeight - titleChrome - infoChrome - verticalInset) / 1.2
 
   const cap = isTablet
     ? 168
@@ -113,16 +111,8 @@ export function getMobileSliderItemLayout(
   }
 }
 
-function se(
-  spread: number,
-  distance: number,
-  map: (value: number) => number,
-  multiplier: number,
-  viewportWidth: number,
-): number {
-  const base = map(distance) * (SPACING + viewportWidth / 100)
-  const offset = Math.sign(distance) * map(viewportWidth * spread)
-  return base + offset * multiplier
+export function getDesktopItemStep(itemSize: number): number {
+  return itemSize + DESKTOP_ITEM_GAP
 }
 
 export interface SliderItemTransform {
@@ -138,30 +128,15 @@ export function getSliderItemTransform(
   viewportWidth: number,
   viewportHeight: number,
 ): SliderItemTransform {
-  const isMobile = viewportWidth < MOBILE_BREAKPOINT
-  const isTablet =
-    !isMobile && viewportWidth <= TABLET_MAX_BREAKPOINT
-  const isLeftOfActive = index < activeIndex
-  const yMultiplier = isTablet
-    ? 0.14
-    : isMobile
-      ? 0.15
-      : viewportHeight / viewportWidth
-  const spread = isTablet
-    ? isLeftOfActive
-      ? 0.1
-      : 0.04
-    : isMobile
-      ? isLeftOfActive
-        ? 0.42
-        : 0.12
-      : 0.27
+  const isTablet = isTabletViewport(viewportWidth)
   const distance = index - activeIndex
-  const inactiveScale = isTablet ? 0.8 : isMobile ? 0.84 : 0.75
+  const itemSize = getCarouselItemSize(viewportWidth, viewportHeight)
+  const itemStep = getDesktopItemStep(itemSize)
+  const inactiveScale = isTablet ? 0.8 : 0.75
 
   return {
-    x: se(spread, distance, (value) => value, 1, viewportWidth),
-    y: se(spread, distance, (value) => -value, yMultiplier, viewportWidth),
+    x: distance * itemStep,
+    y: 0,
     scale: index === activeIndex ? 1 : inactiveScale,
     zIndex: 100 - Math.abs(distance) + (index === activeIndex ? 50 : 0),
   }
