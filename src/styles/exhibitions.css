@@ -141,6 +141,10 @@
     max-width: 100%;
   }
 
+  .exhibitions-page__body {
+    padding-top: 0;
+  }
+
   .exhibitions-card {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -163,5 +167,16 @@
 
   .exhibitions-page__section-title {
     margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .exhibitions-card__title {
+    font-size: clamp(16px, 4.5vw, 20px);
+  }
+
+  .exhibitions-list__item {
+    font-size: 13px;
+    padding: 10px 0;
   }
 }
