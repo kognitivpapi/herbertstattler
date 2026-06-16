@@ -245,10 +245,28 @@
 
   .work-page__title {
     letter-spacing: 0.6px;
+    font-size: clamp(20px, 5.5vw, 32px);
   }
 
   .work-page__footer-note {
     margin-top: 28px;
     font-size: 14px;
+  }
+
+  .work-page__dialogue-speaker,
+  .work-page__dialogue-question,
+  .work-page__dialogue-response,
+  .work-page__dialogue-credit {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .work-page__figure {
+    padding: 20px 0;
+  }
+
+  .work-page__caption {
+    font-size: 9px;
   }
 }
