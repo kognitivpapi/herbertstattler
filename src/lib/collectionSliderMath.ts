@@ -45,6 +45,50 @@ export function getMobileCarouselItemHeight(itemWidth: number): number {
   return Math.round(itemWidth * MOBILE_ITEM_ASPECT)
 }
 
+export function isTabletViewport(viewportWidth: number): boolean {
+  return (
+    viewportWidth >= MOBILE_BREAKPOINT &&
+    viewportWidth <= TABLET_MAX_BREAKPOINT
+  )
+}
+
+/** Desktop / tablet carousel tile size based on available viewport space. */
+export function getCarouselItemSize(
+  viewportWidth: number,
+  viewportHeight: number,
+): number {
+  if (viewportWidth < MOBILE_BREAKPOINT) {
+    return getMobileCarouselItemSize(viewportWidth, viewportHeight)
+  }
+
+  const isTablet = isTabletViewport(viewportWidth)
+  const horizontalInset = isTablet ? 112 : 96
+  const widthFactor = isTablet ? 0.2 : 0.26
+  const maxFromWidth = (viewportWidth - horizontalInset) * widthFactor
+
+  const titleChrome = isTablet ? 108 : 96
+  const infoChrome = isTablet
+    ? Math.min(viewportHeight * (viewportHeight < 860 ? 0.26 : 0.32), 240)
+    : Math.min(viewportHeight * 0.24, 220)
+  const verticalInset = isTablet ? 72 : 56
+  const skewMargin = isTablet ? 1.28 : 1.22
+  const maxFromHeight =
+    (viewportHeight - titleChrome - infoChrome - verticalInset) / skewMargin
+
+  const cap = isTablet
+    ? 168
+    : viewportWidth >= 1200
+      ? 318
+      : viewportWidth >= 1024
+        ? 278
+        : 214
+
+  const floor = isTablet ? 112 : 150
+  const raw = Math.min(maxFromWidth, maxFromHeight, cap)
+
+  return Math.round(Math.max(floor, raw))
+}
+
 export interface MobileSliderItemLayout {
   x: number
   scale: number
@@ -99,21 +143,21 @@ export function getSliderItemTransform(
     !isMobile && viewportWidth <= TABLET_MAX_BREAKPOINT
   const isLeftOfActive = index < activeIndex
   const yMultiplier = isTablet
-    ? 0.32
+    ? 0.14
     : isMobile
       ? 0.15
       : viewportHeight / viewportWidth
   const spread = isTablet
     ? isLeftOfActive
-      ? 0.16
-      : 0.07
+      ? 0.1
+      : 0.04
     : isMobile
       ? isLeftOfActive
         ? 0.42
         : 0.12
       : 0.27
   const distance = index - activeIndex
-  const inactiveScale = isTablet ? 0.82 : isMobile ? 0.84 : 0.75
+  const inactiveScale = isTablet ? 0.8 : isMobile ? 0.84 : 0.75
 
   return {
     x: se(spread, distance, (value) => value, 1, viewportWidth),
