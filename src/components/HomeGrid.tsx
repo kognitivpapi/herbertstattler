@@ -67,7 +67,9 @@ export function HomeGrid({ visible, onDiscover }: HomeGridProps) {
           />
 
           <motion.div className="home-middle" {...reveal(5)}>
-            <p className="home-tagline">Drawings dealing with everyday topics</p>
+            <div className="home-middle__left">
+              <p className="home-tagline">Drawings dealing with everyday topics</p>
+            </div>
             <DiscoverButton onClick={onDiscover} />
           </motion.div>
         </div>
