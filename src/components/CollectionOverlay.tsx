@@ -325,12 +325,15 @@ export function CollectionOverlay({
       </div>
 
       {!isMobile && (
-        <div className="discover-page__controls">
+        <div className="discover-page__controls" aria-label="Collection navigation">
           <NavButton
             direction="prev"
             disabled={activeIndex === 0}
             onClick={() => goTo(activeIndex - 1)}
           />
+          <span className="discover-page__counter">
+            {activeIndex + 1} / {portfolioData.length}
+          </span>
           <NavButton
             direction="next"
             disabled={activeIndex === portfolioData.length - 1}
