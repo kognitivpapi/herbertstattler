@@ -1,6 +1,15 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import { StickyMenu } from '../components/StickyMenu'
-import { featuredExhibitions, groupExhibitions, soloExhibitions, type Exhibition } from '../data/exhibitions'
+import {
+  exhibitionsIntro,
+  exhibitionsNav,
+  featuredExhibitions,
+  groupExhibitions,
+  soloExhibitions,
+  type Exhibition,
+} from '../data/exhibitions'
 import '../styles/home.css'
+import '../styles/pageLanding.css'
 import '../styles/exhibitions.css'
 
 function ExhibitionCard({ exhibition }: { exhibition: Exhibition }) {
@@ -67,52 +76,83 @@ function ExhibitionListItem({ exhibition }: { exhibition: Exhibition }) {
 }
 
 export function ExhibitionsPage() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <div className="exhibitions-page">
       <StickyMenu />
-      <main className="exhibitions-page__content">
-        <header className="exhibitions-page__header">
-          <h1 className="exhibitions-page__title">Exhibitions</h1>
-          <p className="exhibitions-page__intro">
-            Over the years, my drawings have found their way into galleries, museums,
-            and book spaces across Europe and the United States. Below are the
-            exhibitions that meant the most to me—starting with the most recent—with
-            a few images and notes on what was shown.
-          </p>
-        </header>
+      <main className="exhibitions-page__main">
+        <div className="page-landing">
+          <motion.header
+            className="page-landing__header"
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h1 className="page-landing__title">Exhibitions</h1>
 
-        <section className="exhibitions-page__section" aria-labelledby="featured-heading">
-          <h2 id="featured-heading" className="exhibitions-page__section-title">
-            Highlights
-          </h2>
-          <div className="exhibitions-page__featured">
-            {featuredExhibitions.map((exhibition) => (
-              <ExhibitionCard key={exhibition.id} exhibition={exhibition} />
-            ))}
-          </div>
-        </section>
+            <nav className="page-landing__nav" aria-label="Exhibition sections">
+              {exhibitionsNav.map((section) => (
+                <a
+                  key={section.id}
+                  className="page-landing__nav-link"
+                  href={`#exhibitions-${section.id}`}
+                >
+                  {section.shortLabel}
+                </a>
+              ))}
+            </nav>
 
-        <section className="exhibitions-page__section" aria-labelledby="solo-heading">
-          <h2 id="solo-heading" className="exhibitions-page__section-title">
-            Solo exhibitions
-          </h2>
-          <ul className="exhibitions-list">
-            {soloExhibitions.map((exhibition) => (
-              <ExhibitionListItem key={exhibition.id} exhibition={exhibition} />
-            ))}
-          </ul>
-        </section>
+            <p className="page-landing__description">{exhibitionsIntro}</p>
+          </motion.header>
+        </div>
 
-        <section className="exhibitions-page__section" aria-labelledby="group-heading">
-          <h2 id="group-heading" className="exhibitions-page__section-title">
-            Group exhibitions
-          </h2>
-          <ul className="exhibitions-list">
-            {groupExhibitions.map((exhibition) => (
-              <ExhibitionListItem key={exhibition.id} exhibition={exhibition} />
-            ))}
-          </ul>
-        </section>
+        <div className="exhibitions-page__body">
+          <section
+            id="exhibitions-featured"
+            className="exhibitions-page__section"
+            aria-labelledby="featured-heading"
+          >
+            <h2 id="featured-heading" className="exhibitions-page__section-title">
+              Highlights
+            </h2>
+            <div className="exhibitions-page__featured">
+              {featuredExhibitions.map((exhibition) => (
+                <ExhibitionCard key={exhibition.id} exhibition={exhibition} />
+              ))}
+            </div>
+          </section>
+
+          <section
+            id="exhibitions-solo"
+            className="exhibitions-page__section"
+            aria-labelledby="solo-heading"
+          >
+            <h2 id="solo-heading" className="exhibitions-page__section-title">
+              Solo exhibitions
+            </h2>
+            <ul className="exhibitions-list">
+              {soloExhibitions.map((exhibition) => (
+                <ExhibitionListItem key={exhibition.id} exhibition={exhibition} />
+              ))}
+            </ul>
+          </section>
+
+          <section
+            id="exhibitions-group"
+            className="exhibitions-page__section"
+            aria-labelledby="group-heading"
+          >
+            <h2 id="group-heading" className="exhibitions-page__section-title">
+              Group exhibitions
+            </h2>
+            <ul className="exhibitions-list">
+              {groupExhibitions.map((exhibition) => (
+                <ExhibitionListItem key={exhibition.id} exhibition={exhibition} />
+              ))}
+            </ul>
+          </section>
+        </div>
       </main>
     </div>
   )
