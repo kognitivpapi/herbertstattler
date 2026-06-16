@@ -12,7 +12,9 @@
   overflow: hidden;
   background: #fff;
   color: var(--color-gray-900);
-  touch-action: pan-y;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .discover-page__title {
@@ -57,13 +59,14 @@
   height: var(--height);
   transform: skewY(10deg);
   transform-origin: center;
-  cursor: grab;
+  cursor: pointer;
   touch-action: none;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .discover-page__item--active {
-  cursor: pointer;
+  cursor: grab;
 }
 
 .discover-page__item--dragging:not(.discover-page__item--active) {
@@ -157,6 +160,58 @@
   max-width: 36ch;
 }
 
+.discover-page__footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  pointer-events: none;
+}
+
+.discover-page__mobile-bar {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 var(--discover-inset) 12px;
+  pointer-events: auto;
+}
+
+.discover-page__counter {
+  min-width: 4.5rem;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  color: var(--color-gray-900);
+}
+
+.discover-page__open-work {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-gray-900);
+  background: var(--color-gray-900);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.discover-page__open-work:active {
+  opacity: 0.85;
+}
+
 .discover-page__controls {
   display: none;
   position: fixed;
@@ -232,8 +287,18 @@
 }
 
 @media (max-width: 767px) {
+  .discover-page--mobile {
+    grid-template-rows: 1fr auto;
+  }
+
   .discover-page__wrapper {
-    --base-size: 118px;
+    --base-size: min(40vw, 156px);
+    align-items: center;
+    padding-bottom: min(42vh, 320px);
+  }
+
+  .discover-page__item {
+    transform: skewY(6deg);
   }
 
   .discover-page__title {
@@ -253,12 +318,42 @@
     border: 0;
   }
 
+  .discover-page__footer {
+    padding-bottom: max(var(--discover-inset), env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(
+      to top,
+      #fff 0%,
+      #fff 72%,
+      rgba(255, 255, 255, 0.96) 86%,
+      transparent 100%
+    );
+  }
+
+  .discover-page__mobile-bar {
+    display: flex;
+  }
+
+  .discover-page__nav-btn--mobile {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    background: #fff;
+  }
+
   .discover-page__info {
-    left: var(--discover-inset);
-    right: var(--discover-inset);
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
     max-width: none;
+    max-height: min(38vh, 280px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     align-items: flex-start;
     text-align: left;
+    padding: 8px var(--discover-inset) 0;
+    pointer-events: auto;
   }
 
   .discover-page__info-body {
@@ -268,11 +363,19 @@
 
   .discover-page__info-title {
     text-align: left;
+    padding: 4px 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
 
   .discover-page__info-description {
     max-width: none;
     font-size: 14px;
+  }
+
+  .discover-page__open-work {
+    display: block;
   }
 
   .discover-back-btn {
@@ -281,18 +384,35 @@
   }
 
   .discover-back-btn__icon {
-    width: 28px;
-    height: 28px;
+    width: 44px;
+    height: 44px;
   }
 }
 
 @media (max-width: 480px) {
   .discover-page__wrapper {
-    --base-size: 98px;
+    --base-size: min(44vw, 140px);
+    padding-bottom: min(46vh, 300px);
+  }
+
+  .discover-page__mobile-bar {
+    gap: 16px;
   }
 }
 
 @media (min-width: 768px) {
+  .discover-page__info {
+    position: fixed;
+    right: var(--discover-inset);
+    bottom: var(--discover-inset);
+    max-width: min(36ch, 34vw);
+  }
+
+  .discover-page__footer {
+    position: static;
+    display: contents;
+  }
+
   .discover-page__wrapper {
     --base-size: 214px;
   }
