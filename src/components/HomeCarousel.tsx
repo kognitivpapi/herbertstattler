@@ -191,16 +191,22 @@ function CarouselCamera({ visible }: { visible: boolean }) {
 function CarouselScene({
   allowRotation,
   introProgress,
+  active,
 }: {
   allowRotation: boolean
   introProgress: number
+  active: boolean
 }) {
   const visible = usePageVisible()
 
   return (
     <>
-      <CarouselCamera visible={visible} />
-      <CarouselRing visible={visible} allowRotation={allowRotation} introProgress={introProgress} />
+      <CarouselCamera visible={visible && active} />
+      <CarouselRing
+        visible={visible && active}
+        allowRotation={allowRotation}
+        introProgress={introProgress}
+      />
     </>
   )
 }
@@ -208,9 +214,11 @@ function CarouselScene({
 export function HomeCarousel({
   introProgress = 1,
   allowRotation = true,
+  active = true,
 }: {
   introProgress?: number
   allowRotation?: boolean
+  active?: boolean
 }) {
   const [dpr, setDpr] = useState(2)
 
@@ -229,7 +237,11 @@ export function HomeCarousel({
           onDecline={() => setDpr(1)}
         />
         <Suspense fallback={null}>
-          <CarouselScene allowRotation={allowRotation} introProgress={introProgress} />
+          <CarouselScene
+            allowRotation={allowRotation}
+            introProgress={introProgress}
+            active={active}
+          />
         </Suspense>
       </Canvas>
     </div>
