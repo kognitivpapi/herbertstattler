@@ -93,6 +93,10 @@ canvas {
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
+
+  .discover-page--tablet .discover-page__wrapper {
+    padding-bottom: calc(var(--discover-inset) + min(28vh, 200px));
+  }
 }
 
 @media (max-height: 580px) and (max-width: 767px) {
