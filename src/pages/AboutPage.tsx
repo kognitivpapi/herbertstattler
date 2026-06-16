@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { StickyMenu } from '../components/StickyMenu'
 import {
@@ -8,9 +9,76 @@ import {
   aboutSections,
   type AboutListSection,
 } from '../data/about'
+import {
+  aboutShopBooks,
+  aboutShopGalleries,
+  aboutShopIntro,
+} from '../data/aboutShopping'
 import '../styles/home.css'
 import '../styles/pageLanding.css'
 import '../styles/about.css'
+
+function AboutShop() {
+  return (
+    <section
+      id="about-shop"
+      className="about-page__section about-page__shop"
+      aria-labelledby="about-shop-heading"
+    >
+      <h2 id="about-shop-heading" className="about-page__section-title">
+        Shop
+      </h2>
+      <p className="about-page__shop-intro">{aboutShopIntro}</p>
+
+      <h3 className="about-page__shop-group-title">Books</h3>
+      <ul className="about-shop-list">
+        {aboutShopBooks.map((book) => (
+          <li key={book.id} className="about-shop-list__item">
+            <div className="about-shop-list__main">
+              <a
+                className="about-shop-list__link"
+                href={book.shopUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {book.title}
+              </a>
+              <p className="about-shop-list__meta">
+                {book.publisher} · {book.detail}
+              </p>
+            </div>
+            {book.workId && (
+              <Link className="about-shop-list__work-link" to={`/work/${book.workId}`}>
+                View work
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <h3 className="about-page__shop-group-title">Galleries</h3>
+      <ul className="about-shop-list">
+        {aboutShopGalleries.map((gallery) => (
+          <li key={gallery.id} className="about-shop-list__item">
+            <div className="about-shop-list__main">
+              <a
+                className="about-shop-list__link"
+                href={gallery.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {gallery.name}
+              </a>
+              <p className="about-shop-list__meta">
+                {gallery.location} · {gallery.note}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
 
 function AboutList({ section }: { section: AboutListSection }) {
   return (
@@ -87,6 +155,8 @@ export function AboutPage() {
               </p>
             ))}
           </section>
+
+          <AboutShop />
 
           {aboutSections.map((section) => (
             <AboutList key={section.id} section={section} />
