@@ -1,12 +1,12 @@
 import { portfolioData } from '../data/portfolio'
 
 /** Rabobank HomeCarousel: horizontal ring radius (from bundle constant TT) */
-export const CAROUSEL_RADIUS = 9.9
+export const CAROUSEL_RADIUS = 9.4
 
 /** Global scale for carousel planes — kept modest so corner nav labels stay clear */
-export const CAROUSEL_ITEM_SCALE = 1.10
+export const CAROUSEL_ITEM_SCALE = 0.99
 
-export const CAROUSEL_ITEMS = portfolioData.slice(0, 20)
+export const CAROUSEL_ITEMS = portfolioData
 
 export const ITEM_COUNT = CAROUSEL_ITEMS.length
 
