@@ -243,17 +243,18 @@
 @media (max-width: 1199px) {
   .contact-page__layout {
     gap: 40px 48px;
-    grid-template-columns: minmax(200px, 280px) 1fr;
+    grid-template-columns: minmax(180px, 260px) 1fr;
   }
 }
 
 @media (max-width: 900px) {
-  .contact-page__header {
+  .contact-page__header,
+  .contact-page__layout {
+    margin-left: 0;
     max-width: 100%;
   }
 
   .contact-page__layout {
-    max-width: 100%;
     grid-template-columns: 1fr;
     gap: 0;
   }
