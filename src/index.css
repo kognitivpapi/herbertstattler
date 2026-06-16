@@ -6,10 +6,9 @@
 
 :root {
   --color-white: #fff;
-  --color-gray-200: #f5f5f5;
+  --color-gray-200: #fff;
   --color-gray-900: #000;
-  --color-gray-900-30: #595959;
-  --color-text-muted: #4a4a4a;
+  --color-gray-900-30: #000;
   --color-header: #000;
   --menu-width: 392px;
   --menu-height: 66px;
