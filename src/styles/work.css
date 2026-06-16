@@ -8,9 +8,10 @@
 }
 
 .work-page .sticky-menu__title a,
-.work-page .sticky-menu__home-link {
+.work-page .sticky-menu__home-link,
+.work-page .sticky-menu__context {
   color: var(--color-white);
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
 }
 
