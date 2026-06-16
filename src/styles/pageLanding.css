@@ -1,0 +1,66 @@
+/* Shared landing block (Material, Exhibitions, About). */
+.page-landing {
+  padding: var(--page-top-padding) var(--page-gutter) 40px;
+  background: #fff;
+}
+
+.page-landing__header {
+  max-width: var(--page-content-width);
+  margin: 0 0 0 var(--page-indent);
+}
+
+.page-landing__title {
+  margin: 0;
+  font-size: clamp(22px, 4.6vw, 56px);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: 1.3px;
+  color: var(--color-header);
+}
+
+.page-landing__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 24px;
+}
+
+.page-landing__nav-link {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-header);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.page-landing__nav-link:hover {
+  border-bottom-color: var(--color-header);
+  opacity: 0.8;
+}
+
+.page-landing__description {
+  margin: 20px 0 0;
+  max-width: 52ch;
+  font-size: clamp(12px, 1.2vw, 15px);
+  line-height: 1.534;
+  color: #000;
+}
+
+@media (max-width: 900px) {
+  .page-landing__description {
+    max-width: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-landing__header {
+    margin-left: 0;
+  }
+
+  .page-landing__nav {
+    gap: 8px 16px;
+  }
+}
