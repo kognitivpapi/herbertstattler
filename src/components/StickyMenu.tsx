@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion, type Transition } from 'framer-motion'
 import { HOME_HEADER_REVEAL_DURATION_MS } from '../lib/homeIntro'
+import { getNavContextLabel } from '../lib/navContextLabel'
 import { ArrowIcon, CloseIcon, MenuIcon } from './icons'
 
 const menuItems = [
@@ -76,12 +77,23 @@ interface StickyMenuProps {
   onHomeReset?: () => void
   /** Fade/slide in during the one-time landing intro. */
   introReveal?: boolean
+  /** Override auto-detected page label after "Herbert Stattler". */
+  contextLabel?: string
 }
 
-export function StickyMenu({ onNavigate, onHomeReset, introReveal = false }: StickyMenuProps) {
+export function StickyMenu({
+  onNavigate,
+  onHomeReset,
+  introReveal = false,
+  contextLabel: contextLabelOverride,
+}: StickyMenuProps) {
   const navigate = useNavigate()
   const location = useLocation()
+  const { workId } = useParams<{ workId: string }>()
   const [open, setOpen] = useState(false)
+
+  const contextLabel =
+    contextLabelOverride ?? getNavContextLabel(location.pathname, workId)
 
   const goToLanding = () => {
     setOpen(false)
@@ -116,9 +128,9 @@ export function StickyMenu({ onNavigate, onHomeReset, introReveal = false }: Sti
               <TitleReveal text="Herbert Stattler" active={introReveal} />
             </button>
             <span className="sticky-menu__sep">|</span>
-            <button type="button" className="sticky-menu__home-link" onClick={goToLanding}>
-              <TitleReveal text="Home" active={introReveal} />
-            </button>
+            <span className="sticky-menu__context" aria-current="page">
+              <TitleReveal text={contextLabel} active={introReveal} />
+            </span>
           </div>
           <button
             type="button"
