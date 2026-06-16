@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useLayoutEffect, useMemo } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { DiscoverBackButton } from '../components/DiscoverBackButton'
 import { StickyMenu } from '../components/StickyMenu'
@@ -6,6 +6,7 @@ import { StandardPageLayout } from '../components/StandardPageLayout'
 import { WorkDialogue } from '../components/WorkDialogue'
 import { portfolioData } from '../data/portfolio'
 import { getWorkDetail } from '../data/workDetails'
+import { getWorkShopLinks } from '../data/aboutShopping'
 import type { DiscoverNavigationState } from '../lib/discoverNavigation'
 import { splitWorkTitle, martinBauerSubtitleParts } from '../lib/splitWorkTitle'
 import '../styles/home.css'
@@ -46,6 +47,12 @@ export function WorkDetailPage() {
   const backToDiscover = () =>
     navigate('/', { state: { discover: true, discoverIndex } })
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [workId])
+
   if (!work) {
     return (
       <div className="work-page">
@@ -64,6 +71,7 @@ export function WorkDetailPage() {
   const { name: titleName, year: titleYear } = splitWorkTitle(work.title)
   const heroItem = work.gallery[0]
   const galleryItems = work.gallery.slice(1)
+  const shopLinks = getWorkShopLinks(work.id)
 
   return (
     <div className="work-page">
@@ -116,6 +124,25 @@ export function WorkDetailPage() {
             ))
           )}
         </div>
+
+        {shopLinks.length > 0 && (
+          <nav className="work-page__shop" aria-label="Purchase options">
+            <ul className="work-page__shop-list">
+              {shopLinks.map((link) => (
+                <li key={link.url}>
+                  <a
+                    className="work-page__shop-link"
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
 
         {galleryItems.length > 0 && (
           <section className="work-page__gallery" aria-label="Work images">
