@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   AnimatePresence,
@@ -8,8 +8,10 @@ import {
 import { portfolioData } from '../data/portfolio'
 import type { PortfolioItem } from '../data/portfolio'
 import {
+  getCarouselItemSize,
   getSliderItemTransform,
   getSwipeThresholds,
+  isTabletViewport,
   MOBILE_BREAKPOINT,
 } from '../lib/collectionSliderMath'
 import { DiscoverWorkImage } from './DiscoverWorkImage'
@@ -191,6 +193,8 @@ export function CollectionOverlay({
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex)
   const { width, height } = useViewportSize()
   const isMobile = width < MOBILE_BREAKPOINT
+  const isTablet = isTabletViewport(width)
+  const carouselItemSize = getCarouselItemSize(width, height)
   const activeItem = portfolioData[activeIndex]
 
   useEffect(() => {
@@ -225,7 +229,13 @@ export function CollectionOverlay({
 
   return (
     <motion.div
-      className={`discover-page${isMobile ? ' discover-page--mobile' : ''}`}
+      className={[
+        'discover-page',
+        isMobile ? 'discover-page--mobile' : '',
+        isTablet ? 'discover-page--tablet' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -242,7 +252,14 @@ export function CollectionOverlay({
         my collection
       </motion.h1>
 
-      <div className={isMobile ? 'discover-page__mobile-layout' : 'discover-page__wrapper'}>
+      <div
+        className={isMobile ? 'discover-page__mobile-layout' : 'discover-page__wrapper'}
+        style={
+          isMobile
+            ? undefined
+            : ({ '--base-size': `${carouselItemSize}px` } as CSSProperties)
+        }
+      >
         {isMobile ? (
           <MobileDiscoverCarousel
             items={portfolioData}
