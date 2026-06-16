@@ -1,4 +1,5 @@
-import { StandardPageLayout } from '../components/StandardPageLayout'
+import { useNavigate } from 'react-router-dom'
+import { StickyMenu } from '../components/StickyMenu'
 import {
   aboutBiography,
   aboutIntro,
@@ -27,32 +28,44 @@ function AboutList({ section }: { section: AboutListSection }) {
 }
 
 export function AboutPage() {
-  return (
-    <StandardPageLayout
-      className="about-page"
-      heroImage={{
-        src: aboutPortrait.imageUrl,
-        alt: aboutPortrait.alt,
-        credit: aboutPortrait.credit,
-      }}
-      header={
-        <div className="about-page__header">
-          <h1 className="about-page__title">Biography</h1>
-          <p className="about-page__intro">{aboutIntro}</p>
-        </div>
-      }
-    >
-      <section className="about-page__biography" aria-label="Biography">
-        {aboutBiography.map((paragraph, index) => (
-          <p key={index} className="about-page__body">
-            {paragraph}
-          </p>
-        ))}
-      </section>
+  const navigate = useNavigate()
 
-      {aboutSections.map((section) => (
-        <AboutList key={section.id} section={section} />
-      ))}
-    </StandardPageLayout>
+  return (
+    <div className="about-page">
+      <StickyMenu onNavigate={() => navigate('/')} />
+
+      <div className="about-page__hero" aria-label="Portrait">
+        <div className="about-page__hero-scrim" aria-hidden />
+        <figure className="about-page__portrait">
+          <img src={aboutPortrait.imageUrl} alt={aboutPortrait.alt} loading="eager" />
+          {aboutPortrait.credit && (
+            <figcaption className="about-page__portrait-credit">
+              {aboutPortrait.credit}
+            </figcaption>
+          )}
+        </figure>
+      </div>
+
+      <main className="about-page__main">
+        <div className="about-page__content">
+          <header className="about-page__header">
+            <h1 className="about-page__title">Biography</h1>
+            <p className="about-page__intro">{aboutIntro}</p>
+          </header>
+
+          <section className="about-page__biography" aria-label="Biography">
+            {aboutBiography.map((paragraph, index) => (
+              <p key={index} className="about-page__body">
+                {paragraph}
+              </p>
+            ))}
+          </section>
+
+          {aboutSections.map((section) => (
+            <AboutList key={section.id} section={section} />
+          ))}
+        </div>
+      </main>
+    </div>
   )
 }
