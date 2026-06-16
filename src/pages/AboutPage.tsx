@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { StickyMenu } from '../components/StickyMenu'
 import {
   aboutBiography,
@@ -28,11 +27,9 @@ function AboutList({ section }: { section: AboutListSection }) {
 }
 
 export function AboutPage() {
-  const navigate = useNavigate()
-
   return (
     <div className="about-page">
-      <StickyMenu onNavigate={() => navigate('/')} />
+      <StickyMenu />
 
       <div className="about-page__hero" aria-label="Portrait">
         <div className="about-page__hero-scrim" aria-hidden />
