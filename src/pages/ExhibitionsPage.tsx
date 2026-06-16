@@ -1,4 +1,5 @@
-import { StandardPageLayout } from '../components/StandardPageLayout'
+import { useNavigate } from 'react-router-dom'
+import { StickyMenu } from '../components/StickyMenu'
 import { featuredExhibitions, groupExhibitions, soloExhibitions, type Exhibition } from '../data/exhibitions'
 import '../styles/home.css'
 import '../styles/exhibitions.css'
@@ -67,18 +68,13 @@ function ExhibitionListItem({ exhibition }: { exhibition: Exhibition }) {
 }
 
 export function ExhibitionsPage() {
-  const heroImage = featuredExhibitions.find((exhibition) => exhibition.imageUrl)?.imageUrl
+  const navigate = useNavigate()
 
   return (
-    <StandardPageLayout
-      className="exhibitions-page"
-      heroImage={
-        heroImage
-          ? { src: heroImage, alt: 'Exhibitions highlight image' }
-          : undefined
-      }
-      header={
-        <div className="exhibitions-page__header">
+    <div className="exhibitions-page">
+      <StickyMenu onNavigate={() => navigate('/')} />
+      <main className="exhibitions-page__content">
+        <header className="exhibitions-page__header">
           <h1 className="exhibitions-page__title">Exhibitions</h1>
           <p className="exhibitions-page__intro">
             Over the years, my drawings have found their way into galleries, museums,
@@ -86,10 +82,9 @@ export function ExhibitionsPage() {
             exhibitions that meant the most to me—starting with the most recent—with
             a few images and notes on what was shown.
           </p>
-        </div>
-      }
-    >
-      <section className="exhibitions-page__section" aria-labelledby="featured-heading">
+        </header>
+
+        <section className="exhibitions-page__section" aria-labelledby="featured-heading">
           <h2 id="featured-heading" className="exhibitions-page__section-title">
             Highlights
           </h2>
@@ -121,6 +116,7 @@ export function ExhibitionsPage() {
             ))}
           </ul>
         </section>
-    </StandardPageLayout>
+      </main>
+    </div>
   )
 }
