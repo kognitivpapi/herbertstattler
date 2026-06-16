@@ -93,6 +93,7 @@ export function HomePage() {
         setShowHomeText(true)
       }
       if (t >= 1) {
+        setShowHomeText(true)
         sessionStorage.setItem(HOME_INTRO_STORAGE_KEY, '1')
         return
       }

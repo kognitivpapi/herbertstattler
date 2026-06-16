@@ -6,7 +6,7 @@ export const HOME_INTRO_DURATION_MS = 3000
 // Keep the start "carousel-only" — UI appears late.
 export const HOME_HEADER_REVEAL_AT = 0.92
 export const HOME_HEADER_REVEAL_DURATION_MS = 2000
-export const HOME_TEXT_REVEAL_AT = 0.975
+export const HOME_TEXT_REVEAL_AT = 0.94
 
 export function clamp01(t: number) {
   return Math.min(1, Math.max(0, t))
