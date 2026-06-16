@@ -122,7 +122,7 @@
   max-width: var(--grid-max-width);
   width: 100%;
   justify-self: center;
-  background: #fff;
+  background: #000;
 }
 
 /* Grid links — match Rabobank componentGridLink */
