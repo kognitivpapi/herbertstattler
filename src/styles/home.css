@@ -39,7 +39,7 @@
 
 .home-grid {
   height: 100%;
-  padding: calc(var(--menu-height) + var(--size-24)) var(--page-gutter) var(--page-gutter);
+  padding: calc(var(--menu-height) + var(--size-24)) var(--home-gutter, var(--page-gutter)) var(--page-gutter);
   pointer-events: none;
 }
 
