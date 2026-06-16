@@ -15,6 +15,36 @@ export function getMobileItemStep(itemWidth: number): number {
   return itemWidth + MOBILE_ITEM_GAP
 }
 
+const MOBILE_ITEM_ASPECT = 1.2
+
+/** Size carousel tiles to show the full active work while reserving fixed chrome rows. */
+export function getMobileCarouselItemSize(
+  viewportWidth: number,
+  viewportHeight: number,
+): number {
+  const inset = 32
+  const availableWidth = Math.max(0, viewportWidth - inset * 2)
+
+  const titleChrome = 108
+  const barChrome = 72
+  const infoChrome = Math.min(Math.max(viewportHeight * 0.3, 148), 260)
+  const verticalGap = 20
+
+  const maxItemHeight = Math.max(
+    0,
+    viewportHeight - titleChrome - barChrome - infoChrome - verticalGap,
+  )
+  const widthFromHeight = maxItemHeight / MOBILE_ITEM_ASPECT
+  const widthFromViewport = availableWidth * 0.64
+  const raw = Math.min(widthFromViewport, widthFromHeight, 172)
+
+  return Math.round(Math.max(104, raw))
+}
+
+export function getMobileCarouselItemHeight(itemWidth: number): number {
+  return Math.round(itemWidth * MOBILE_ITEM_ASPECT)
+}
+
 export interface MobileSliderItemLayout {
   x: number
   scale: number
