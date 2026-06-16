@@ -88,6 +88,7 @@ a {
 .sticky-menu-wrap .sticky-menu svg,
 .sticky-menu-wrap .sticky-menu-dropdown svg {
   color: #fff;
+  overflow: visible;
 }
 
 body:has(.work-page),
