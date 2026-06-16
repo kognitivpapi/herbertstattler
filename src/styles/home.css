@@ -223,6 +223,10 @@
     border-color 0.35s ease;
 }
 
+.home-link__icon svg {
+  display: block;
+}
+
 .discover-btn {
   display: inline-flex;
   align-items: center;
@@ -585,21 +589,22 @@
 
   .home-link--about,
   .home-link--artlab {
-    display: flex;
-    flex-direction: row;
     align-self: end;
     align-items: center;
-    gap: 12px;
+    line-height: 28px;
   }
 
   .home-link--about .home-link__icon,
-  .home-link--artlab .home-link__icon,
+  .home-link--artlab .home-link__icon {
+    align-self: center;
+  }
+
   .home-link--about .home-link__label,
   .home-link--artlab .home-link__label {
-    grid-column: unset;
-    grid-row: unset;
-    align-self: auto;
     line-height: 28px;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
     writing-mode: horizontal-tb;
     transform: none;
   }
@@ -685,6 +690,12 @@
 
   .home-link--exhibition .home-link__label {
     line-height: 1.15;
+  }
+
+  .home-link--about .home-link__label,
+  .home-link--artlab .home-link__label {
+    line-height: 28px;
+    min-height: 28px;
   }
 
   .discover-btn {
