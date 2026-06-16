@@ -1,18 +1,25 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import { StickyMenu } from '../components/StickyMenu'
 import {
   aboutBiography,
   aboutIntro,
+  aboutNav,
   aboutPortrait,
   aboutSections,
   type AboutListSection,
 } from '../data/about'
 import '../styles/home.css'
+import '../styles/pageLanding.css'
 import '../styles/about.css'
 
 function AboutList({ section }: { section: AboutListSection }) {
   return (
-    <section className="about-page__section" aria-labelledby={`about-${section.id}`}>
-      <h2 id={`about-${section.id}`} className="about-page__section-title">
+    <section
+      id={`about-${section.id}`}
+      className="about-page__section"
+      aria-labelledby={`about-${section.id}-heading`}
+    >
+      <h2 id={`about-${section.id}-heading`} className="about-page__section-title">
         {section.title}
       </h2>
       <ul className="about-list">
@@ -27,30 +34,53 @@ function AboutList({ section }: { section: AboutListSection }) {
 }
 
 export function AboutPage() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <div className="about-page">
       <StickyMenu />
 
-      <div className="about-page__hero" aria-label="Portrait">
-        <div className="about-page__hero-scrim" aria-hidden />
-        <figure className="about-page__portrait">
-          <img src={aboutPortrait.imageUrl} alt={aboutPortrait.alt} loading="eager" />
-          {aboutPortrait.credit && (
-            <figcaption className="about-page__portrait-credit">
-              {aboutPortrait.credit}
-            </figcaption>
-          )}
-        </figure>
-      </div>
-
       <main className="about-page__main">
-        <div className="about-page__content">
-          <header className="about-page__header">
-            <h1 className="about-page__title">Biography</h1>
-            <p className="about-page__intro">{aboutIntro}</p>
-          </header>
+        <div className="page-landing">
+          <motion.header
+            className="page-landing__header"
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h1 className="page-landing__title">Biography</h1>
 
-          <section className="about-page__biography" aria-label="Biography">
+            <nav className="page-landing__nav" aria-label="Biography sections">
+              {aboutNav.map((section) => (
+                <a
+                  key={section.id}
+                  className="page-landing__nav-link"
+                  href={`#about-${section.id}`}
+                >
+                  {section.shortLabel}
+                </a>
+              ))}
+            </nav>
+
+            <p className="page-landing__description">{aboutIntro}</p>
+          </motion.header>
+        </div>
+
+        <div className="about-page__content">
+          <figure className="about-page__portrait">
+            <img src={aboutPortrait.imageUrl} alt={aboutPortrait.alt} loading="eager" />
+            {aboutPortrait.credit && (
+              <figcaption className="about-page__portrait-credit">
+                {aboutPortrait.credit}
+              </figcaption>
+            )}
+          </figure>
+
+          <section
+            id="about-biography"
+            className="about-page__biography"
+            aria-label="Biography"
+          >
             {aboutBiography.map((paragraph, index) => (
               <p key={index} className="about-page__body">
                 {paragraph}
