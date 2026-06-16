@@ -5,6 +5,7 @@ export interface AboutShopBook {
   detail: string
   shopUrl: string
   workId?: string
+  youtubeVideoId?: string
 }
 
 export interface AboutShopGallery {
@@ -20,6 +21,11 @@ export interface WorkShopLink {
   url: string
 }
 
+export interface WorkSpectorVideo {
+  videoId: string
+  title: string
+}
+
 export const aboutShopIntro =
   'Artist\'s books are available from Spector Books. For drawings, editions, and gallery works, please contact the galleries below.'
 
@@ -31,6 +37,7 @@ export const aboutShopBooks: AboutShopBook[] = [
     detail: 'English edition · ISBN 978-3-95905-884-1',
     shopUrl: 'https://www.spectorbooks.com/book/herbert-stattler-lace-ware',
     workId: 'lace-ware-album',
+    youtubeVideoId: 'ZJrtPqZk3j4',
   },
   {
     id: 'spitzenwaren-de',
@@ -39,6 +46,7 @@ export const aboutShopBooks: AboutShopBook[] = [
     detail: 'German edition · ISBN 978-3-95905-883-4',
     shopUrl: 'https://www.spectorbooks.com/book/herbert-stattler-spitzenwaren',
     workId: 'spitzenwaren-album',
+    youtubeVideoId: 'twX5hKVxf7A',
   },
   {
     id: 'woher-kommen-kinder',
@@ -90,37 +98,23 @@ export const aboutShopGalleries: AboutShopGallery[] = [
   },
 ]
 
-const workSpecialEditionShopLinks: Record<string, WorkShopLink> = {
-  'lace-ware-album': {
-    label: 'Special edition at Galerie Druck & Buch',
-    url: 'https://www.druckundbuch.com/',
-  },
-  'spitzenwaren-album': {
-    label: 'Special edition at Galerie Druck & Buch',
-    url: 'https://www.druckundbuch.com/',
-  },
-  'woher-kommen-kinder': {
-    label: 'Special edition at Galerie Druck & Buch',
-    url: 'https://www.druckundbuch.com/',
-  },
-  'where-do-little-children': {
-    label: 'Special edition at Galerie Druck & Buch',
-    url: 'https://www.druckundbuch.com/',
-  },
-}
-
 export function getWorkShopLinks(workId: string): WorkShopLink[] {
-  const links: WorkShopLink[] = aboutShopBooks
+  return aboutShopBooks
     .filter((book) => book.workId === workId)
     .map((book) => ({
       label: 'Buy at Spector Books',
       url: book.shopUrl,
     }))
+}
 
-  const specialEdition = workSpecialEditionShopLinks[workId]
-  if (specialEdition) {
-    links.push(specialEdition)
+export function getWorkSpectorVideo(workId: string): WorkSpectorVideo | undefined {
+  const book = aboutShopBooks.find(
+    (entry) => entry.workId === workId && entry.youtubeVideoId,
+  )
+  if (!book?.youtubeVideoId) return undefined
+
+  return {
+    videoId: book.youtubeVideoId,
+    title: book.title,
   }
-
-  return links
 }
