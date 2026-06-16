@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { CAROUSEL_RADIUS, seededRandom } from './carouselMath'
 
 export const HOME_INTRO_STORAGE_KEY = 'hs_home_intro_done'
-export const HOME_INTRO_DURATION_MS = 3000
+export const HOME_INTRO_DURATION_MS = 5200
 // Keep the start "carousel-only" — UI appears late.
 export const HOME_HEADER_REVEAL_AT = 0.92
 export const HOME_HEADER_REVEAL_DURATION_MS = 2000
