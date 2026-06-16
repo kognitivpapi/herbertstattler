@@ -118,7 +118,7 @@
   max-width: 52ch;
   font-size: clamp(12px, 1.2vw, 15px);
   line-height: 1.534;
-  color: var(--color-text-muted);
+  color: #000;
 }
 
 .about-page__biography {
