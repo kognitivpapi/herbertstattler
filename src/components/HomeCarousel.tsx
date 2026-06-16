@@ -161,7 +161,7 @@ function CarouselRing({
 }
 
 function CarouselCamera({ visible }: { visible: boolean }) {
-  const { camera, pointer, size, viewport } = useThree()
+  const { camera, pointer, size } = useThree()
   const targetZoom = useRef(50)
   const targetPos = useRef(new THREE.Vector3(0, 4.5, 9))
   const isMobile = useIsMobile()
@@ -173,8 +173,11 @@ function CarouselCamera({ visible }: { visible: boolean }) {
       targetZoom.current = (40 * Math.min(size.width, 1800)) / 1000
       targetPos.current.set(pointer.x * 0.4, pointer.y * 0.16 + 4.5, 9)
     } else {
-      const { width } = viewport.getCurrentViewport(camera)
-      targetZoom.current = Math.round(width * 2.9)
+      // Keep scaling linear with browser width so the ring shrinks
+      // proportionally when the user narrows the window.
+      // (The previous getCurrentViewport-based approach effectively behaved like sqrt(width).)
+      const zoom = (50 * Math.min(size.width, 1800)) / 1000
+      targetZoom.current = THREE.MathUtils.clamp(zoom, 28, 95)
       targetPos.current.set(0, 4.5, 9)
     }
 
