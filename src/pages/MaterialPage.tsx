@@ -1,19 +1,33 @@
+import { useMemo } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { MaterialLoadingScreen } from '../components/MaterialLoadingScreen'
 import { MaterialScrollChapter } from '../components/MaterialScrollChapter'
 import { StickyMenu } from '../components/StickyMenu'
 import { materialDescription, materialSections } from '../data/material'
+import { useMaterialPageReady } from '../hooks/useMaterialPageReady'
 import '../styles/home.css'
 import '../styles/material.css'
 
 export function MaterialPage() {
   const navigate = useNavigate()
   const reducedMotion = useReducedMotion()
+  const sceneImages = useMemo(
+    () => materialSections.map((section) => section.sceneImage),
+    [],
+  )
+  const loadingPhase = useMaterialPageReady(sceneImages)
+  const showLoader = loadingPhase !== 'done'
 
   return (
     <div className="material-page">
       <StickyMenu onNavigate={() => navigate('/')} />
-      <main className="material-page__main">
+      {showLoader && <MaterialLoadingScreen exiting={loadingPhase === 'exiting'} />}
+      <main
+        className="material-page__main"
+        aria-hidden={showLoader}
+        style={showLoader ? { visibility: 'hidden' } : undefined}
+      >
         <div className="material-landing">
           <motion.header
             className="material-landing__header"

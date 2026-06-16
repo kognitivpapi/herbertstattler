@@ -212,3 +212,145 @@
     background-attachment: scroll;
   }
 }
+
+/* Loading screen — pencil hatching on paper */
+.material-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  pointer-events: all;
+}
+
+.material-loading__frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.material-loading__svg {
+  width: min(200px, 42vw);
+  height: auto;
+  overflow: visible;
+}
+
+.material-loading__paper {
+  fill: #fafafa;
+  stroke: rgba(13, 44, 132, 0.1);
+  stroke-width: 1;
+  opacity: 0;
+  animation: material-loading-paper-in 0.7s ease forwards;
+}
+
+.material-loading__stroke {
+  fill: none;
+  stroke: var(--color-header);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.15;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.72;
+  animation: material-loading-draw 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.material-loading__stroke--hatch {
+  stroke-width: 0.85;
+  opacity: 0.38;
+}
+
+.material-loading__stroke--light {
+  opacity: 0.22;
+}
+
+.material-loading__stroke--gesture {
+  stroke-width: 1.25;
+  opacity: 0.58;
+}
+
+.material-loading__stroke--edge {
+  stroke-width: 1.4;
+  opacity: 0.82;
+}
+
+.material-loading__tip {
+  fill: var(--color-header);
+  opacity: 0;
+  transform-origin: center;
+  animation: material-loading-tip 0.45s ease forwards;
+}
+
+.material-loading__label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-header);
+  opacity: 0;
+  animation: material-loading-label 0.6s ease 0.35s forwards;
+}
+
+@keyframes material-loading-paper-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes material-loading-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes material-loading-tip {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.75;
+  }
+}
+
+@keyframes material-loading-label {
+  to {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .material-loading__paper,
+  .material-loading__stroke,
+  .material-loading__tip,
+  .material-loading__label {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .material-loading__stroke--hatch {
+    opacity: 0.38;
+  }
+
+  .material-loading__stroke--light {
+    opacity: 0.22;
+  }
+
+  .material-loading__stroke--gesture {
+    opacity: 0.58;
+  }
+
+  .material-loading__label {
+    opacity: 0.55;
+  }
+}
