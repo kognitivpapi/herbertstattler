@@ -31,8 +31,7 @@
   max-width: 52ch;
   font-size: clamp(12px, 1.2vw, 15px);
   line-height: 1.534;
-  color: var(--color-gray-900);
-  opacity: 0.85;
+  color: var(--color-text-muted);
 }
 
 .contact-page__layout {
@@ -131,7 +130,7 @@
   display: block;
   margin-top: 2px;
   font-size: 13px;
-  opacity: 0.75;
+  color: var(--color-text-muted);
 }
 
 .contact-form {
