@@ -162,7 +162,7 @@ function CarouselRing({
 function CarouselCamera({ visible }: { visible: boolean }) {
   const { camera, pointer, size, viewport } = useThree()
   const targetZoom = useRef(50)
-  const targetPos = useRef(new THREE.Vector3(0, 4.5, 9))
+  const targetPos = useRef(new THREE.Vector3(0, 3.6, 9))
   const isMobile = useIsMobile()
 
   useFrame((_, delta) => {
@@ -170,11 +170,11 @@ function CarouselCamera({ visible }: { visible: boolean }) {
 
     if (isMobile) {
       targetZoom.current = (40 * Math.min(size.width, 1800)) / 1000
-      targetPos.current.set(pointer.x * 0.5, pointer.y * 0.3 + 4.5, 9)
+      targetPos.current.set(pointer.x * 0.5, pointer.y * 0.2 + 3.6, 9)
     } else {
       const { width } = viewport.getCurrentViewport(camera)
       targetZoom.current = Math.round(width * 2.9)
-      targetPos.current.set(0, 4.5, 9)
+      targetPos.current.set(0, 3.6, 9)
     }
 
     camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.05)
@@ -184,7 +184,7 @@ function CarouselCamera({ visible }: { visible: boolean }) {
   })
 
   return (
-    <OrthographicCamera makeDefault position={[0, 4.5, 9]} zoom={50} />
+    <OrthographicCamera makeDefault position={[0, 3.6, 9]} zoom={50} />
   )
 }
 
