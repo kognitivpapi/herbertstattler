@@ -74,9 +74,11 @@ a {
 
 .sticky-menu-wrap .sticky-menu__title a,
 .sticky-menu-wrap .sticky-menu__home-link,
+.sticky-menu-wrap .sticky-menu__context,
 .sticky-menu-wrap .sticky-menu__toggle,
 .sticky-menu-wrap .sticky-menu-dropdown button {
   color: #fff;
+  font-weight: 400;
 }
 
 .sticky-menu-wrap .sticky-menu__sep {
