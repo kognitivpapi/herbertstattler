@@ -85,8 +85,8 @@ canvas {
   }
 }
 
-/* Discover — limited vertical space */
-@media (max-height: 700px) {
+/* Discover — limited vertical space (desktop layout) */
+@media (max-height: 700px) and (min-width: 768px) {
   .discover-page__info-description {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -97,20 +97,11 @@ canvas {
 
 @media (max-height: 580px) and (max-width: 767px) {
   .discover-page__wrapper {
-    --base-size: 88px;
+    --base-size: min(36vw, 128px);
+    padding-bottom: min(50vh, 280px);
   }
 
-  .discover-page__info-name,
-  .discover-page__info-title {
-    font-size: 15px;
-  }
-
-  .discover-page__info-year {
-    font-size: 12px;
-  }
-
-  .discover-page__info-description {
-    -webkit-line-clamp: 2;
-    font-size: 13px;
+  .discover-page__info {
+    max-height: min(34vh, 220px);
   }
 }
