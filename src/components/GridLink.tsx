@@ -93,8 +93,8 @@ export function HerbertLogoReveal({ active }: { active: boolean }) {
     hidden: {},
     show: {
       transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.08,
+        staggerChildren: 0.022,
+        delayChildren: 0.04,
       },
     },
   } as const
@@ -120,7 +120,7 @@ export function HerbertLogoReveal({ active }: { active: boolean }) {
             key={`h-${i}-${c}`}
             className="home-wordmark__char"
             variants={char}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
           >
             {c}
           </motion.span>
@@ -137,7 +137,7 @@ export function HerbertLogoReveal({ active }: { active: boolean }) {
             key={`s-${i}-${c}`}
             className="home-wordmark__char"
             variants={char}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
           >
             {c}
           </motion.span>

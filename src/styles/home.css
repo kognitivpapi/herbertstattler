@@ -4,8 +4,8 @@
   height: 100dvh;
   width: 100%;
   overflow: hidden;
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #000;
 }
 
 .home-page__grid {
@@ -63,7 +63,7 @@
   justify-self: center;
   align-self: end;
   margin: 0 var(--size-16);
-  color: #fff;
+  color: #000;
 }
 
 .home-wordmark {
@@ -109,7 +109,7 @@
   max-width: 30ch;
   font-size: 16px;
   line-height: 1.2;
-  color: #fff;
+  color: #000;
   font-weight: 400;
 }
 
@@ -122,7 +122,7 @@
   max-width: var(--grid-max-width);
   width: 100%;
   justify-self: center;
-  background: #000;
+  background: #fff;
 }
 
 /* Grid links — match Rabobank componentGridLink */
@@ -133,7 +133,7 @@
   font-size: clamp(20px, 2.2vw, 32px);
   font-weight: 600;
   line-height: 1;
-  color: #fff;
+  color: #000;
   background: transparent;
   border: none;
   padding: 0;
@@ -149,9 +149,9 @@
   place-items: center;
   width: 32px;
   height: 32px;
-  border: 1px solid #fff;
+  border: 1px solid #000;
   background: transparent;
-  color: #fff;
+  color: #000;
   transition:
     background-color 0.35s ease,
     color 0.35s ease,
@@ -160,8 +160,8 @@
 
 .home-link:hover .home-link__icon,
 .discover-btn:hover .discover-btn__icon {
-  background: #fff;
-  color: #000;
+  background: #000;
+  color: #fff;
 }
 
 .home-link--stories {
@@ -212,7 +212,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1;
-  color: #fff;
+  color: #000;
   background: transparent;
   border: none;
   padding: 0;
@@ -225,11 +225,33 @@
   place-items: center;
   width: 32px;
   height: 32px;
-  border: 1px solid #fff;
-  color: #fff;
+  border: 1px solid #000;
+  color: #000;
   transition:
     background-color 0.35s ease,
     color 0.35s ease;
+}
+
+/* Home-only menu: white background, black text */
+.home-page .sticky-menu,
+.home-page .sticky-menu-dropdown {
+  background: #fff;
+  color: #000;
+}
+
+.home-page .sticky-menu__title a,
+.home-page .sticky-menu__home-link,
+.home-page .sticky-menu__toggle,
+.home-page .sticky-menu-dropdown button {
+  color: #000;
+}
+
+.home-page .sticky-menu-dropdown {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.home-page .sticky-menu-dropdown button:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* Sticky menu — centered, dark pill */
