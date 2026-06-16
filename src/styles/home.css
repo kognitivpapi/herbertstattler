@@ -67,8 +67,8 @@
 }
 
 .home-wordmark {
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 900;
+  font-family: inherit;
+  font-weight: 500;
   line-height: 0.92;
   width: 100%;
   user-select: none;
