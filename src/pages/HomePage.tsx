@@ -159,6 +159,7 @@ export function HomePage() {
           introReveal={headerIntroReveal}
           onNavigate={() => openCollection(0)}
           onHomeReset={resetLanding}
+          contextLabel={showCollection ? 'Work' : undefined}
         />
       )}
       <AnimatePresence>
