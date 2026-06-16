@@ -84,10 +84,10 @@ export function WorkDetailPage() {
           <div className="work-page__header">
             <h1 className="work-page__title">
               <span className="work-page__title-name">{decodeText(titleName)}</span>
-              {titleYear && (
-                <span className="work-page__title-year">{decodeText(titleYear)}</span>
-              )}
             </h1>
+            {titleYear && (
+              <p className="work-page__release">{decodeText(titleYear)}</p>
+            )}
             {work.subtitle && (
               <h2 className="work-page__subtitle">
                 {martinBauerSubtitleParts[work.id] ? (
