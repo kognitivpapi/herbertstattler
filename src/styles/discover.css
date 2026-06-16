@@ -144,7 +144,7 @@
   line-height: 1.2;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-gray-900-30);
+  color: #000;
   margin: 0;
 }
 
@@ -152,7 +152,7 @@
   font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 400;
   line-height: 1.45;
-  color: var(--color-text-muted);
+  color: #000;
   margin: 0;
   max-width: 36ch;
 }
