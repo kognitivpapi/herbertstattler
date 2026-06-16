@@ -1,5 +1,6 @@
 .standard-page {
   min-height: 100vh;
+  color: #000;
 }
 
 .standard-page__main {
@@ -30,7 +31,7 @@
 .standard-page__hero-credit {
   margin-top: 0.5rem;
   font-size: 0.85rem;
-  opacity: 0.75;
+  color: var(--color-text-muted);
   text-align: right;
 }
 
