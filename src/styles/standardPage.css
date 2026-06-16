@@ -18,14 +18,10 @@
   gap: 1.75rem;
 }
 
-.standard-page__hero,
-.standard-page__header {
-  width: var(--standard-page-hero-width);
-  max-width: 100%;
-}
-
 .standard-page__hero {
   margin: 0;
+  width: var(--standard-page-hero-width);
+  max-width: 100%;
 }
 
 .standard-page__hero-image {
@@ -43,6 +39,7 @@
 }
 
 .standard-page__header {
+  width: 100%;
   text-align: right;
 }
 
@@ -56,9 +53,11 @@
 .standard-page__header .about-page__title,
 .standard-page__header .exhibitions-page__title,
 .standard-page__header .work-page__title {
-  white-space: nowrap;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .standard-page__header .work-page__title-name,
