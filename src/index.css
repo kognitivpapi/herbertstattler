@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'IBM Plex Serif', ui-serif, Georgia, 'Times New Roman', Times, serif;
 }
 
 :root {
@@ -39,10 +39,26 @@ body,
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
+  font-weight: 300;
   background: #fff;
   color: #000;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Typography scale: headers/subheaders/body weights */
+h1,
+h2,
+h3,
+[data-typography='header'] {
+  font-weight: 500;
+}
+
+h4,
+h5,
+h6,
+[data-typography='subheader'] {
+  font-weight: 400;
 }
 
 a {
