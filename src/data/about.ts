@@ -18,6 +18,16 @@ export const aboutBiography: string[] = [
   'Order on the desk, the ideal of the city and sex education are some of the themes of my work, which I develop into work series after detailed research. Here the procedure is always the same: preliminary work on the content and experiments with the paper are carried out in parallel until I have found a form that is valid for me. This may be geared, for example, to the form of the geographical map, to a pattern repeat or dot matrix printing. Over the course of months and years this gives rise to my series of drawings.',
 ]
 
+export const aboutNav = [
+  { id: 'biography', shortLabel: 'Biography' },
+  { id: 'residencies', shortLabel: 'Residencies' },
+  { id: 'awards', shortLabel: 'Awards' },
+  { id: 'lectures', shortLabel: 'Lectures' },
+  { id: 'exhibition-designs', shortLabel: 'Exhibition designs' },
+  { id: 'publications', shortLabel: 'Publications' },
+  { id: 'bibliography', shortLabel: 'Bibliography' },
+] as const
+
 export const aboutSections: AboutListSection[] = [
   {
     id: 'residencies',
