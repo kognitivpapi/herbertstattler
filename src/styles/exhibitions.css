@@ -31,7 +31,7 @@
   max-width: 52ch;
   font-size: clamp(12px, 1.2vw, 15px);
   line-height: 1.534;
-  color: var(--color-text-muted);
+  color: #000;
 }
 
 .exhibitions-page__section {
@@ -145,7 +145,7 @@
 }
 
 .exhibitions-list__details {
-  color: var(--color-text-muted);
+  color: #000;
 }
 
 @media (max-width: 900px) {
