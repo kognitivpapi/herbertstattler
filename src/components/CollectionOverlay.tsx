@@ -13,6 +13,7 @@ import {
   MOBILE_BREAKPOINT,
 } from '../lib/collectionSliderMath'
 import { DiscoverWorkImage } from './DiscoverWorkImage'
+import { MobileDiscoverCarousel } from './MobileDiscoverCarousel'
 import { ArrowIcon } from './icons'
 import '../styles/discover.css'
 
@@ -235,20 +236,29 @@ export function CollectionOverlay({
         my collection
       </motion.h1>
 
-      <div className="discover-page__wrapper">
-        {portfolioData.map((item, index) => (
-          <SliderItem
-            key={item.id}
-            item={item}
-            index={index}
+      <div className={isMobile ? 'discover-page__mobile-layout' : 'discover-page__wrapper'}>
+        {isMobile ? (
+          <MobileDiscoverCarousel
+            items={portfolioData}
             activeIndex={activeIndex}
             viewportWidth={width}
-            viewportHeight={height}
-            isMobile={isMobile}
             onSelect={goTo}
-            onOpen={openWork}
           />
-        ))}
+        ) : (
+          portfolioData.map((item, index) => (
+            <SliderItem
+              key={item.id}
+              item={item}
+              index={index}
+              activeIndex={activeIndex}
+              viewportWidth={width}
+              viewportHeight={height}
+              isMobile={false}
+              onSelect={goTo}
+              onOpen={openWork}
+            />
+          ))
+        )}
       </div>
 
       <div className="discover-page__footer">
