@@ -7,7 +7,7 @@ interface DiscoverBackButtonProps {
 
 export function DiscoverBackButton({ onClick }: DiscoverBackButtonProps) {
   return createPortal(
-    <button type="button" className="discover-back-btn" onClick={onClick}>
+    <button type="button" className="discover-back-btn" onClick={onClick} aria-label="Back">
       <span className="discover-back-btn__icon" aria-hidden>
         <ArrowIcon className="rotate-180" />
       </span>
