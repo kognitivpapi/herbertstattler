@@ -57,8 +57,6 @@
   max-height: var(--height);
   width: var(--width);
   height: var(--height);
-  transform: skewY(10deg);
-  transform-origin: center;
   cursor: pointer;
   touch-action: none;
   user-select: none;
@@ -224,6 +222,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--discover-inset);
+  pointer-events: none;
+}
+
+.discover-page__controls .discover-page__counter {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -420,10 +425,6 @@
     padding-bottom: min(42vh, 320px);
   }
 
-  .discover-page__item {
-    transform: skewY(6deg);
-  }
-
   .discover-page__title {
     max-width: 10ch;
     font-size: clamp(18px, 5.5vw, 26px);
@@ -506,10 +507,6 @@
     box-sizing: border-box;
     padding: calc(var(--discover-back-top) + 28px) 72px
       calc(var(--discover-inset) + min(32vh, 240px));
-  }
-
-  .discover-page--tablet .discover-page__item {
-    transform: skewY(4deg);
   }
 
   .discover-page--tablet .discover-page__title {
