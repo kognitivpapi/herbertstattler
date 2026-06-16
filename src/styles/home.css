@@ -100,9 +100,20 @@
   justify-self: center;
   align-self: start;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: var(--size-16);
   pointer-events: auto;
+}
+
+.home-middle__left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-middle .discover-btn {
+  margin-left: auto;
 }
 
 .home-tagline {
