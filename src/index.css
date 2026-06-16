@@ -25,6 +25,7 @@
   --page-top-padding: calc(var(--menu-height) + var(--size-24) + 32px);
   --page-header-gap: 48px;
   --page-section-gap: 56px;
+  --home-gutter: clamp(56px, 7vw, 120px);
 }
 
 * {
