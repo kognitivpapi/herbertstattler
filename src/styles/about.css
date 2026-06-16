@@ -108,7 +108,7 @@
 .about-page__title {
   margin: 0;
   font-size: clamp(22px, 4.6vw, 56px);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.18;
   letter-spacing: 1.3px;
   color: var(--color-header);
@@ -134,7 +134,7 @@
 .about-page__section-title {
   margin: 0 0 24px var(--page-indent);
   font-size: clamp(14px, 1.6vw, 20px);
-  font-weight: 600;
+  font-weight: 400;
   color: var(--color-header);
   text-transform: uppercase;
   letter-spacing: 0.06em;
